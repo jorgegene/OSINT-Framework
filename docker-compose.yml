@@ -1,0 +1,80 @@
+version: "3"
+services:
+  db:
+    image: postgres:13.3
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - db-data:/data/postgres
+
+  api:
+    build:
+      context: .
+      args:
+        REQUIREMENTS_FILE: dev.txt
+    restart: always
+    ports:
+      - 8000:8000
+    env_file: .env
+    command: 'sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:8000"'
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+
+  client:
+    build:
+      context: ./client
+
+    restart: always
+    ports:
+      - 3001:3001
+    env_file: ./client/.env
+    command: 'sh -c "npm start"'
+
+    depends_on:
+      - api
+    volumes:
+      - ./client:/app
+  queue:
+    build:
+      context: .
+      args:
+        REQUIREMENTS_FILE: dev.txt
+    restart: unless-stopped
+    env_file: .env
+    command: sh /entrypoint-queue.sh
+    volumes:
+      - ./:/app
+
+  beat:
+    build:
+      context: .
+      args:
+        REQUIREMENTS_FILE: dev.txt
+    restart: unless-stopped
+    env_file: .env
+    command: sh /entrypoint-beat.sh
+    volumes:
+      - ./:/app
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
+
+volumes:
+  db-data:
