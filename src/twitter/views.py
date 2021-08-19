@@ -34,7 +34,7 @@ class TweetViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
             tweets = get_tweets(username)
             tweet_list = []
             for tweet in tweets:
-                tweet_list.append(Tweet.create(tweet))
+                tweet_list.append(Tweet(tweet))
             return Response(TweetSerializer(tweet_list, context={'request': self.request}, many=True).data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'Wrong auth token' + e}, status=status.HTTP_400_BAD_REQUEST)

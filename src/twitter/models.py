@@ -22,13 +22,12 @@ class Tweet(models.Model):
     link = models.TextField()
     datetime = models.DateTimeField(auto_now_add=False)
 
-    def create(cls, tweet):
-        tweet_result = cls(tweet_data=tweet['tweet_data'], 
-                    username=tweet['username'], 
-                    profile_name=tweet['profile_name'], 
-                    link=tweet['link'], 
-                    datetime=tweet['datetime'])
-        return tweet_result
+    def __init__(self,tweet):
+        self.tweet_data=tweet['tweet_data']
+        self.username=tweet['username']
+        self.profile_name=tweet['profile_name']
+        self.link=tweet['link'] 
+        self.datetime=tweet['datetime']
 
     def __str__(self):
         return self.tweet_data
