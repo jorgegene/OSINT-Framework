@@ -13,5 +13,6 @@ class TweetSerializer(serializers.ModelSerializer):
             'profile_name',
             'link',
             'datetime',
+            'tweet_image',
         )
-        read_only_fields = ('username', 'tweet_data', 'profile_name', 'datetime', 'link')
+        read_only_fields = ('username', 'tweet_data', 'profile_name', 'datetime', 'link', 'tweet_video', 'tweet_image')

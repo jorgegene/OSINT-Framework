@@ -21,6 +21,7 @@ class Tweet(models.Model):
     profile_name = models.CharField(max_length=100, blank=True, default='')
     link = models.TextField()
     datetime = models.DateTimeField(auto_now_add=False)
+    tweet_image = models.CharField(max_length=200, blank=True, default='')
 
     def __init__(self,tweet):
         self.tweet_data=tweet['tweet_data']
@@ -28,6 +29,8 @@ class Tweet(models.Model):
         self.profile_name=tweet['profile_name']
         self.link=tweet['link'] 
         self.datetime=tweet['datetime']
+        if "tweet_image" in tweet:
+            self.tweet_image=tweet['tweet_image']
 
     def __str__(self):
         return self.tweet_data
