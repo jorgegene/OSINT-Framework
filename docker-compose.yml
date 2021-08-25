@@ -37,10 +37,6 @@ services:
     env_file: ./client/.env
     command: 'sh -c "npm start"'
 
-    depends_on:
-      - api
-    volumes:
-      - ./client:/app
   queue:
     build:
       context: .
