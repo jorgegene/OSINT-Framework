@@ -13,7 +13,7 @@ from src.common.helpers import build_absolute_uri
 from src.notifications.services import notify, ACTIVITY_USER_RESETS_PASS
 
 
-class FaceProfile(models.Model):
+class LinkProfile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     name = models.CharField(max_length=300, blank=True, default='')

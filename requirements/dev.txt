@@ -20,6 +20,7 @@ geopy
 fake-useragent
 googletransx
 instaloader==4.8.1
+facebook-scraper==0.2.45
 
 # Testing
 factory-boy==3.2.0

@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from src.facebook.models import FaceProfile
+from src.linkedin.models import LinkProfile
 
-@admin.register(FaceProfile)
-class FaceAdmin(admin.ModelAdmin):
+@admin.register(LinkProfile)
+class LinkAdmin(admin.ModelAdmin):
     fieldsets = ((None, {
         'fields': ('username', 'name')
     }), (_('Personal info'), {

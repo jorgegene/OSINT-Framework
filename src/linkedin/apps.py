@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class FaceConfig(AppConfig):
-    name = 'src.facebook'
+    name = 'src.linkedin'
 
     # actstream register model
     # def ready(self):

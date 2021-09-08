@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from src.facebook.models import FaceProfile
+from src.linkedin.models import LinkProfile
 from src.common.serializers import ThumbnailerJSONSerializer
 
-class FaceSerializer(serializers.ModelSerializer):
+class LinkSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = FaceProfile
+        model = LinkProfile
         fields = (
             'name',
             'username',

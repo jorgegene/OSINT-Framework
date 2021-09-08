@@ -17,6 +17,7 @@ from src.files.urls import files_router
 from src.users.urls import users_router
 from src.twitter.urls import twitter_router
 from src.instagram.urls import instagram_router
+from src.facebook.urls import facebook_router
 
 schema_view = get_schema_view(
     openapi.Info(title="Pastebin API", default_version='v1'),
@@ -29,6 +30,7 @@ router.registry.extend(users_router.registry)
 router.registry.extend(files_router.registry)
 router.registry.extend(twitter_router.registry)
 router.registry.extend(instagram_router.registry)
+router.registry.extend(facebook_router.registry)
 
 urlpatterns = [
     # admin panel

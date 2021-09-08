@@ -1,6 +1,6 @@
 from rest_framework.routers import SimpleRouter
 
-from src.twitter.views import TweetViewSet
+from src.facebook.views import FaceViewSet
 
 facebook_router = SimpleRouter()
 
