@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class FaceConfig(AppConfig):
+class LinkConfig(AppConfig):
     name = 'src.linkedin'
 
     # actstream register model

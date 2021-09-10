@@ -9,15 +9,12 @@ class LinkSerializer(serializers.ModelSerializer):
         model = LinkProfile
         fields = (
             'name',
-            'username',
-            'profile_picture',
-            'basic_info',
-            'contact_info',
-            'category',
-            'life_events',
-            'places_lived',
-            'education',
-            'family_members',
-            'favourite_quotes',
+            'profile_link',
+            'educations',
+            'interests',
+            'experiences',
+            'about',
+            'accomplishments',
+            'contacts',
         )
-        read_only_fields = ('username', 'name', 'profile_picture', 'basic_info', 'contact_info', 'category', 'life_events', 'favourite_quotes', 'places_lived', 'education', 'family_members')
+        read_only_fields = ('name', 'profile_link', 'educations', 'interests', 'experiences', 'accomplishments', 'contacts', 'about')

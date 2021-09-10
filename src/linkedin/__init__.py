@@ -1,1 +1,1 @@
-default_app_config = 'src.facebook.apps.FaceConfig'
+default_app_config = 'src.linkedin.apps.LinkConfig'

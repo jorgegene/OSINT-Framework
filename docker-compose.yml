@@ -72,5 +72,10 @@ services:
       - 1025:1025
       - 8025:8025
 
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+    - 4444:4444
+    
 volumes:
   db-data:

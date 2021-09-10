@@ -12,7 +12,7 @@ from src.linkedin.serializers import LinkSerializer
 
 
 
-class FaceViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class LinkViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     Creates, Updates and Retrieves - User Accounts
     """
@@ -25,7 +25,7 @@ class FaceViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
         return self.serializers.get(self.action, self.serializers['default'])
 
     @action(detail=False, methods=['get'])
-    def get_face_profile_data(self, request):
+    def get_linkedin_profile_data(self, request):
         """"""
         try:
             #username = request.DATA['username']

@@ -17,35 +17,29 @@ class LinkProfile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     name = models.CharField(max_length=300, blank=True, default='')
-    username = models.CharField(max_length=100, blank=True, default='')
-    category = models.CharField(max_length=100, blank=True, default='')
-    profile_picture = models.TextField()
-    basic_info = models.TextField()
-    contact_info = models.TextField()
-    places_lived = models.CharField(max_length=300, blank=True, default='')
-    education = models.CharField(max_length=300, blank=True, default='')
-    family_members = models.CharField(max_length=300, blank=True, default='')
-    life_events = models.CharField(max_length=300, blank=True, default='')
-    favourite_quotes = models.CharField(max_length=300, blank=True, default='')
+    profile_link = models.CharField(max_length=100, blank=True, default='')
+    about = models.TextField()
+    experiences = models.TextField()
+    educations = models.TextField()
+    accomplishments = models.TextField()
+    interests = models.TextField()
+    contacts = models.TextField()
 
-    def __init__(self,face):
-        self.name=face['name']
-        self.username=face['username']
-        self.profile_picture=face['profile_picture'] 
-        self.basic_info=face['basic_info']
-        self.contact_info=face['contact_info']
-        if 'category' in face:
-            self.category=face['category']
-        if 'places_lived' in face:
-            self.places_lived=face['places_lived']
-        if 'education' in face:
-            self.education=face['education']
-        if 'family_members' in face:
-            self.family_members=face['family_members']
-        if 'life_events' in face:
-            self.life_events=face['life_events']
-        if 'favourite_quotes' in face:
-            self.favourite_quotes=face['favourite_quotes']
+    def __init__(self,linkedin_profile):
+        self.name=linkedin_profile['name']
+        self.profile_link=linkedin_profile['profile_link']
+        if 'about' in linkedin_profile:
+            self.about=linkedin_profile['about']
+        if 'experiences' in linkedin_profile:
+            self.experiences=linkedin_profile['experiences']
+        if 'interests' in linkedin_profile:
+            self.interests=linkedin_profile['interests']
+        if 'educations' in linkedin_profile:
+            self.educations=linkedin_profile['educations']
+        if 'accomplishments' in linkedin_profile:
+            self.accomplishments=linkedin_profile['accomplishments']
+        if 'contacts' in linkedin_profile:
+            self.contacts=linkedin_profile['contacts']
 
 
     def __str__(self):
