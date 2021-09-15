@@ -108,5 +108,6 @@ venv.bak/
 .mypy_cache/
 
 # media files
-media/*
+media/profile_pictures/*
+media/post_pictures/*
 !media/.gitkeep

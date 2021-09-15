@@ -26,6 +26,7 @@ services:
       - ./server/:/app
     depends_on:
       - db
+      - selenium
 
   client:
     build:
