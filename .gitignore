@@ -109,5 +109,5 @@ venv.bak/
 
 # media files
 media/profile_pictures/*
-media/post_pictures/*
+media/post_images/*
 !media/.gitkeep
