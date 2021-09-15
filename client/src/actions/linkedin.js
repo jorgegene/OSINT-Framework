@@ -1,22 +1,23 @@
 import {
   SET_MESSAGE,
-  RETRIEVE_TWEETS_FAIL,
-  RETRIEVE_TWEETS_SUCCESS,
+  RETRIEVE_LINKEDIN_PROFILE_FAIL,
+  RETRIEVE_LINKEDIN_PROFILE_SUCCESS,
   UNVALID_TOKEN,
 } from "./types";
 
-import Tweets from "../services/twitter.service";
+import LinkedIn from "../services/linkedin.service";
 
-export const get_tweets_user = (username) => (dispatch) => {
-  return Tweets.get_tweets_user(username).then(
+export const get_linkedin_profile_user = (username) => (dispatch) => {
+  return LinkedIn.get_linkedin_profile_user(username).then(
     (data) => {
-      console.log("data", data)
+      console.log("LunkiedIn data", data)
       dispatch({
-        type: RETRIEVE_TWEETS_FAIL,
+        type: RETRIEVE_LINKEDIN_PROFILE_FAIL,
       });
+
       dispatch({
-        type: RETRIEVE_TWEETS_SUCCESS,
-        payload: data.tweets ,
+        type: RETRIEVE_LINKEDIN_PROFILE_SUCCESS,
+        payload: data.profile ,
       });
 
       dispatch({
@@ -34,14 +35,14 @@ export const get_tweets_user = (username) => (dispatch) => {
         error.message ||
         error.toString();
       
-      if (error.response.status === 403){
+      if (error.response !== undefined && error.response.status === 403){
         dispatch({
           type: UNVALID_TOKEN,
         });
       }
 
       dispatch({
-        type: RETRIEVE_TWEETS_FAIL,
+        type: RETRIEVE_LINKEDIN_PROFILE_FAIL,
       });
 
       dispatch({
@@ -53,4 +54,3 @@ export const get_tweets_user = (username) => (dispatch) => {
     }
   );
 };
-

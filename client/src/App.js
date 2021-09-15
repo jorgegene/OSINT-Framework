@@ -44,6 +44,7 @@ class App extends Component {
     }, 1000 * 60 * 2)
   }
   componentDidMount() {
+    document.title = "OSINT Lab";
 
     this.refreshTokenTask()
     }

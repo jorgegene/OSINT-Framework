@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy } from 'react';
+import React, { useState, useEffect, useCallback, lazy } from 'react';
 import {
   CBadge,
   CCard,
@@ -32,6 +32,10 @@ import { NavLink } from 'react-router-dom'
 import {useParams} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_tweets_user } from "../../actions/tweets";
+import { get_insta_posts_user } from "../../actions/instagram";
+import { get_facebook_profile_user } from "../../actions/facebook";
+import { get_linkedin_profile_user } from "../../actions/linkedin";
+
 
 const Cards = (props) => {
   const [collapsed, setCollapsed] = React.useState(true)
@@ -51,22 +55,15 @@ const Cards = (props) => {
 
 
   let username = props.match.params.name
-
+  let profile_pic = "https://ttensports.com/wp-content/uploads/1982/02/person-placeholder-245x300.jpg"
 
   useEffect(async() => {
     console.log("Searching tweets", username)
-    setIsLoading(true);
       dispatch(get_tweets_user(username))
-      .then(() => {
-        setIsLoading(false);
+      dispatch(get_insta_posts_user(username))
+      dispatch(get_facebook_profile_user(username))
+      dispatch(get_linkedin_profile_user(username))
 
-      })
-      .catch((err) => {
-        console.log("error",err)
-      });
-
-
-    
   }, []);
 
   let tweets_component = () => {
@@ -85,7 +82,23 @@ const Cards = (props) => {
               <small>{tweet.datetime}</small>
               </h5>
               <div className="mb-1">
-                {`${tweet.tweet_data}`}                 
+                <p>
+                {`${tweet.tweet_data}`}   
+
+                </p>
+                {tweet.tweet_image !== undefined ?
+                     <CImg
+                     src={tweet.tweet_image}
+                     width="300px"
+                     shape="rounded"
+                     thumbnail
+                     className="mb-2"
+                   /> :
+                   []             
+              }
+
+   
+
               </div>
               </CListGroupItem>
             </a>)
@@ -93,9 +106,149 @@ const Cards = (props) => {
         }
       </CListGroup>
       )
+    }
   }
-}
 
+  let instagram_component = () => {
+    console.log(state)
+    if (state.instagram_reducer.insta_posts === null){
+      return <p>Loading...</p>
+    } else{
+      
+      return (
+      <CListGroup>
+        {
+          state.instagram_reducer.insta_posts.map((post, index) => {
+            let date = new Date(post.datetime).toISOString().slice(0,10);
+            return (
+              <CContainer>
+                  <CCol>
+                    {post.post_image !== undefined ?
+                        <CImg
+                        src={post.post_image}
+                        width="300px"
+                        shape="rounded"
+                        thumbnail
+                        className="mb-2"
+                      /> :
+                      []             
+                  }
+                  </CCol>
+
+                  <CCol>
+                      <CRow>
+                      <p style={{marginRight: "10px"}}>{post.username}</p>
+                      <p>{date}</p>
+                      
+                      </CRow>
+                      <CRow>
+                        {post.post_data}
+                      </CRow>
+
+                  </CCol>
+              </CContainer>
+            )
+          })
+        }
+      </CListGroup>
+      )
+    }
+  }
+
+
+  let facebook_component = () => {
+    console.log(state)
+    if ( state.facebook_reducer.profile === null){
+      return <p>Loading...</p>
+    } else{
+      let p = state.facebook_reducer.profile
+
+      if(p.profile_picture !== undefined){
+        profile_pic = p.profile_picture
+      }
+      return (
+      <CContainer>
+       {p.profile_picture !== undefined ?
+                     <CImg
+                     src={p.profile_picture}
+                     width="100px"
+                     shape="rounded"
+                     thumbnail
+                     className="mb-2"
+                   /> :
+                   []             
+      }
+        <CRow>
+          Name: {p.name}
+        </CRow>
+        <CRow>
+          Username: {p.username}
+        </CRow>
+        <CRow>
+        contact_info: {p.contact_info}
+        </CRow>
+
+        <CRow>
+        Education: {p.education}
+        </CRow>
+        <CRow>
+        Basic Info: {p.basic_info}
+        </CRow>
+        <CRow>
+        Life Events: {p.life_events}
+        </CRow>
+      </CContainer>
+      )
+    }
+  }
+
+  let linkedin_component = () => {
+    console.log(state)
+    if ( state.linkedin_reducer.profile === null){
+      return <p>Loading...</p>
+    } else{
+      let p = state.linkedin_reducer.profile
+
+      return (
+      <CContainer>
+       {p.profile_picture !== undefined ?
+                     <CImg
+                     src={p.profile_picture}
+                     width="100px"
+                     shape="rounded"
+                     thumbnail
+                     className="mb-2"
+                   /> :
+                   []             
+      }
+        <CRow >
+          Name: {p.name}
+        </CRow>
+        <CRow >
+        About: {p.about}
+        </CRow>
+        <CRow >
+        contact_info: {p.profile_link}
+        </CRow>
+        <CRow >
+        Experiences: {p.experiences}
+        </CRow>
+        <CRow >
+        Education: {p.educations}
+        </CRow>
+        <CRow >
+        Accomplishments: {p.accomplishments}
+        </CRow>
+        <CRow >
+        Interests: {p.interests}
+        </CRow>
+        <CRow >
+        Contacts: {p.contacts}
+        </CRow>
+      </CContainer>
+      )
+    }
+  }
 
   return (
     <CContainer fluid xxl>
@@ -110,7 +263,7 @@ const Cards = (props) => {
               <CImg
                    height="200rem"
                   shape="rounded-circle"
-                  src="https://ttensports.com/wp-content/uploads/1982/02/person-placeholder-245x300.jpg"
+                  src={profile_pic}
                     fluid
                     className="mb-2"
                   />
@@ -182,12 +335,12 @@ const Cards = (props) => {
                   </CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink>
+                  <CNavLink >
                     Facebook
                   </CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink>
+                  <CNavLink >
                     Instagram
                   </CNavLink>
                 </CNavItem>
@@ -204,27 +357,40 @@ const Cards = (props) => {
               </CNav>
               <CTabContent>
                 <CTabPane>
+                 <CCard>
+                    <CCardHeader>
+                      List user tweets
+                    </CCardHeader>
+                    <CCardBody>
+                    
+                      { tweets_component()}
+
+
+                    </CCardBody>
+                  </CCard>
+
+                </CTabPane>
+
+                <CTabPane>
+
                 <CCard>
-            <CCardHeader>
-              List user tweets
-            </CCardHeader>
-            <CCardBody>
-            
-               { tweets_component()}
+                    <CCardHeader>
+                      Profile
+                    </CCardHeader>
+                    <CCardBody>
+                    
+                    { facebook_component()}
 
 
-            </CCardBody>
-          </CCard>
+                    </CCardBody>
+                  </CCard>
 
                 </CTabPane>
                 <CTabPane>
-                  {`2. ${lorem}`}
+                  { instagram_component()}
                 </CTabPane>
                 <CTabPane>
-                  {`3. ${lorem}`}
-                </CTabPane>
-                <CTabPane>
-                  {`3. ${lorem}`}
+                { linkedin_component()}
                 </CTabPane>
                 <CTabPane>
                   {`3. ${lorem}`}

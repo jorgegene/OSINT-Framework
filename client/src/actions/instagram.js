@@ -1,22 +1,22 @@
 import {
   SET_MESSAGE,
-  RETRIEVE_TWEETS_FAIL,
-  RETRIEVE_TWEETS_SUCCESS,
+  RETRIEVE_INSTA_POSTS_SUCCESS,
+  RETRIEVE_INSTA_POSTS_FAIL,
   UNVALID_TOKEN,
 } from "./types";
 
-import Tweets from "../services/twitter.service";
+import Instagram from "../services/instagram.service";
 
-export const get_tweets_user = (username) => (dispatch) => {
-  return Tweets.get_tweets_user(username).then(
+export const get_insta_posts_user = (username) => (dispatch) => {
+  return Instagram.get_insta_posts_user(username).then(
     (data) => {
       console.log("data", data)
       dispatch({
-        type: RETRIEVE_TWEETS_FAIL,
+        type: RETRIEVE_INSTA_POSTS_FAIL,
       });
       dispatch({
-        type: RETRIEVE_TWEETS_SUCCESS,
-        payload: data.tweets ,
+        type: RETRIEVE_INSTA_POSTS_SUCCESS,
+        payload: data.posts ,
       });
 
       dispatch({
@@ -41,7 +41,7 @@ export const get_tweets_user = (username) => (dispatch) => {
       }
 
       dispatch({
-        type: RETRIEVE_TWEETS_FAIL,
+        type: RETRIEVE_INSTA_POSTS_FAIL,
       });
 
       dispatch({

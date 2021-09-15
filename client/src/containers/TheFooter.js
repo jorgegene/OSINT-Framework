@@ -5,7 +5,7 @@ const TheFooter = () => {
   return (
     <CFooter fixed={false}>
       <div>
-      © 2021 Analysta.GG.
+      © 2021 OSINT Lab.
       </div>
 
     </CFooter>
