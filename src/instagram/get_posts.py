@@ -23,7 +23,7 @@ def get_posts(username):
             image_url = post.url
             file_name = image_url.split("/")[-1]
             file_name = file_name.split("?")[0]
-            url_path = "http://api:8000/media/post_images/" + file_name
+            url_path = "http://0.0.0.0:8000/media/post_images/" + file_name
             file_path = "/app/media/post_images/"+file_name
             r = requests.get(image_url, stream = True)
 

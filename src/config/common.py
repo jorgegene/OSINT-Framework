@@ -58,6 +58,7 @@ INSTALLED_APPS = (
     'src.instagram',
     'src.facebook',
     'src.linkedin',
+    'src.search',
 
     # Third party optional apps
     # app must be placed somewhere after all the apps that are going to be generating activities

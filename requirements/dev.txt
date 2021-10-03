@@ -22,6 +22,7 @@ googletransx
 instaloader==4.8.1
 facebook-scraper==0.2.45
 linkedin-scraper==2.9.0
+google==3.0.0
 
 
 # Testing
