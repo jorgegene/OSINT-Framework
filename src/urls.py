@@ -20,6 +20,8 @@ from src.instagram.urls import instagram_router
 from src.facebook.urls import facebook_router
 from src.linkedin.urls import linkedin_router
 from src.search.urls import search_router
+from src.instagram_profile.urls import instagram_profile_router
+from src.twitter_profile.urls import twitter_profile_router
 
 
 schema_view = get_schema_view(
@@ -36,6 +38,8 @@ router.registry.extend(instagram_router.registry)
 router.registry.extend(facebook_router.registry)
 router.registry.extend(linkedin_router.registry)
 router.registry.extend(search_router.registry)
+router.registry.extend(instagram_profile_router.registry)
+router.registry.extend(twitter_profile_router.registry)
 
 urlpatterns = [
     # admin panel

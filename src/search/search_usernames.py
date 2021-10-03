@@ -7,8 +7,8 @@ def get_usernames(name):
     insta_query = name + " instagram"
     linkedin_query = name + " linkedin"
     twitter_url = google_search(twitter_query,tld="es")
-    insta_url = google_search(facebook_query,tld="es")
-    facebook_url = google_search(insta_query,tld="es")
+    insta_url = google_search(insta_query,tld="es")
+    facebook_url = google_search(facebook_query,tld="es")
     linkedin_url = google_search(linkedin_query,tld="es")
     #print (twitter_username)
     #print (insta_username)
@@ -22,7 +22,11 @@ def get_usernames(name):
                         'twitter_username': twitter_username,
                         'insta_username': insta_username,
                         'facebook_username': facebook_username,
-                        'linkedin_username': linkedin_username
+                        'linkedin_username': linkedin_username,
+                        'twitter_url': twitter_url,
+                        'facebook_url': facebook_url,
+                        'insta_url': insta_url,
+                        'linkedin_url': linkedin_url
                         }
 
     return dictionary

@@ -12,5 +12,9 @@ class SearchAdmin(admin.ModelAdmin):
             'insta_username',
             'facebook_username',
             'linkedin_username',
+            'insta_url',
+            'facebook_url',
+            'linkedin_url',
+            'twitter_url',
         )
     }))

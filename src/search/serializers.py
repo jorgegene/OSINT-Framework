@@ -13,5 +13,9 @@ class SearchSerializer(serializers.ModelSerializer):
             'insta_username',
             'facebook_username',
             'linkedin_username',
+            'twitter_url',
+            'insta_url',
+            'facebook_url',
+            'linkedin_url',
         )
-        read_only_fields = ('personal_name', 'twitter_username', 'insta_username', 'facebook_username', 'linkedin_username')
+        read_only_fields = ('personal_name', 'twitter_username', 'insta_username', 'facebook_username', 'linkedin_username', 'twitter_url', 'insta_url', 'facebook_url', 'linkedin_url')

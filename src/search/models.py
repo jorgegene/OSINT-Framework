@@ -21,6 +21,10 @@ class Search(models.Model):
     twitter_username = models.CharField(max_length=100, blank=True, default='')
     facebook_username = models.CharField(max_length=100, blank=True, default='')
     linkedin_username = models.CharField(max_length=100, blank=True, default='')
+    insta_url = models.TextField()
+    twitter_url = models.TextField()
+    facebook_url = models.TextField()
+    linkedin_url = models.TextField()
 
     def __init__(self,searched):
         self.personal_name=searched['personal_name']
@@ -28,6 +32,11 @@ class Search(models.Model):
         self.twitter_username=searched['twitter_username']
         self.facebook_username=searched['facebook_username']
         self.linkedin_username=searched['linkedin_username'] 
+        self.insta_url=searched['insta_url']
+        self.twitter_url=searched['twitter_url']
+        self.facebook_url=searched['facebook_url']
+        self.linkedin_url=searched['linkedin_url'] 
+
 
     def __str__(self):
         return self.personal_name
