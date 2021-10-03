@@ -12,5 +12,6 @@ class InstaSerializer(serializers.ModelSerializer):
             'username',
             'datetime',
             'post_image',
+            'likes',
         )
-        read_only_fields = ('username', 'post_data', 'datetime', 'post_image')
+        read_only_fields = ('username', 'post_data', 'datetime', 'post_image', 'likes')

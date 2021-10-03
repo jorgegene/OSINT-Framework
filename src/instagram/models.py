@@ -20,12 +20,14 @@ class InstaPost(models.Model):
     username = models.CharField(max_length=100, blank=True, default='')
     datetime = models.DateTimeField(auto_now_add=False)
     post_image = models.TextField()
+    likes = models.IntegerField()
 
     def __init__(self,insta_post):
         self.post_data=insta_post['caption']
         self.username=insta_post['username']
         self.datetime=insta_post['datetime']
         self.post_image=insta_post['post_image']
+        self.likes=insta_post['likes']
 
     def __str__(self):
         return self.post_data

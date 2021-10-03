@@ -12,5 +12,6 @@ class InstaAdmin(admin.ModelAdmin):
             'post_data',
             'post_image',
             'datetime',
+            'likes',
         )
     }))

@@ -22,6 +22,9 @@ class Tweet(models.Model):
     link = models.TextField()
     datetime = models.DateTimeField(auto_now_add=False)
     tweet_image = models.CharField(max_length=200, blank=True, default='')
+    likes = models.IntegerField()
+    retweets = models.IntegerField()
+    replies = models.IntegerField()
 
     def __init__(self,tweet):
         self.tweet_data=tweet['tweet_data']
@@ -31,6 +34,9 @@ class Tweet(models.Model):
         self.datetime=tweet['datetime']
         if "tweet_image" in tweet:
             self.tweet_image=tweet['tweet_image']
+        self.likes=tweet['likes']
+        self.retweets=tweet['retweets']
+        self.replies=tweet['replies']
 
     def __str__(self):
         return self.tweet_data

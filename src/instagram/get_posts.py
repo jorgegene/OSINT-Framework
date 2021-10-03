@@ -26,7 +26,7 @@ def get_posts(username):
             url_path = "http://0.0.0.0:8000/media/post_images/" + file_name
             file_path = "/app/media/post_images/"+file_name
             r = requests.get(image_url, stream = True)
-
+            #print (post.likes)
             # Check if the image was retrieved successfully
             if r.status_code == 200:
                 # Set decode_content value to True, otherwise the downloaded image file's size will be zero.
@@ -39,7 +39,8 @@ def get_posts(username):
             dictionary = {'post_image': url_path,
                         'caption': post.caption,
                         'username': post.owner_username,
-                        'datetime': post.date}
+                        'datetime': post.date,
+                        'likes': post.likes}
             posts_list.append(dictionary)
             i = i+1
         

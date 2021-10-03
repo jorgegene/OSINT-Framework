@@ -12,5 +12,8 @@ class TweetAdmin(admin.ModelAdmin):
             'tweet_data',
             'link',
             'datetime',
+            'likes',
+            'retweets',
+            'replies',
         )
     }))

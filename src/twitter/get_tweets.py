@@ -22,7 +22,10 @@ def filter_tweets(tweets):
         dictionary = {'profile_name': tweet.name, 
                     'link': tweet.link,
                     'datetime': tweet.datetime,
-                    'username': tweet.username
+                    'username': tweet.username,
+                    'likes': tweet.likes_count,
+                    'replies': tweet.replies_count,
+                    'retweets': tweet.retweets_count
                     }
         if  tweet.photos:
             tweet_text = re.sub("(?P<url>https?://[^\s]+)",'', tweet.tweet)
@@ -37,7 +40,7 @@ def filter_tweets(tweets):
 
 
 def main():
-    print(get_tweets("Jorge_Generelo"))
+    print(get_tweets("kevinmitnick"))
 
 if __name__ == '__main__':
     main()
