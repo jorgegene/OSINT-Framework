@@ -18,9 +18,11 @@ import {
   CForm,
   CInputGroupText,
   CInputGroupPrepend,
-  CInputGroupAppend,
+  CInputCheckbox,
   CLabel,
-  CCollapse
+  CCollapse,
+  CInvalidFeedback
+
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
@@ -31,7 +33,13 @@ export default class Dashboard extends Component {
     this.state = {
        showAdvanced: false,
        selectedCategory: "Person ID",
-       accordion: 1
+       accordion: 1,
+       username: null,
+       uTwitter: "",
+       uFacebook: "",
+       uLinkedin: "",
+       uInstagram: ""
+
     }
   }
 
@@ -50,6 +58,72 @@ export default class Dashboard extends Component {
 
   this.setState({ selectedCategory: category});
 };
+onChangeUsername = (e) => {
+  const username = e.target.value;
+  this.setState({ username});
+};
+onChangeuTwitter = (e) => {
+  const uTwitter = e.target.value;
+  this.setState({ uTwitter});
+};
+onChangeuFacebook = (e) => {
+  const uFacebook = e.target.value;
+  this.setState({ uFacebook});
+};
+onChangeuInstagram = (e) => {
+  const uInstagram = e.target.value;
+  this.setState({ uInstagram});
+};
+onChangeuLinkedin = (e) => {
+  const uLinkedin = e.target.value;
+  this.setState({ uLinkedin});
+};
+
+toggleTwitter = () => {
+  if (this.state.uTwitter == null){
+    this.setState({ uTwitter: ""});
+  } else{
+    this.setState({ uTwitter: null});
+  }
+}
+toggleFacebook = () => {
+  if (this.state.uFacebook == null){
+    this.setState({ uFacebook: ""});
+  } else{
+    this.setState({ uFacebook: null});
+  }
+}
+toggleInstagram = () => {
+  if (this.state.uInstagram == null){
+    this.setState({ uInstagram: ""});
+  } else{
+    this.setState({ uInstagram: null});
+  }
+}
+toggleLinkedin = () => {
+  if (this.state.uLinkedin == null){
+    this.setState({ uLinkedin: ""});
+  } else{
+    this.setState({ uLinkedin: null});
+  }
+}
+
+handleSubmit = (e) => {
+  console.log("submit",e, this.state.username)
+  e.preventDefault();
+  const form = e.currentTarget
+  this.props.history.push({
+    pathname: `/tools/finder/${this.state.username}`,
+    //search: '?query=abc',
+    state: { username: this.state.username,
+    uTwitter: this.state.uTwitter,
+    uFacebook: this.state.uFacebook,
+    uInstagram: this.state.uInstagram,
+    uLinkedin: this.state.uLinkedin,
+    exception: true }
+  });
+
+};
 
  render(){
   return (
@@ -57,23 +131,27 @@ export default class Dashboard extends Component {
       <CCard  style={{padding: "2rem"}}>
         <CCardBody>
           <CRow style={{marginBottom: "0.8rem"}}>
-              <h2 id="search" className="card-title mb-0">Analysta Search Engine</h2>
+              <h2 id="search" className="card-title mb-0">OSINT Lab Search Engine</h2>
            </CRow>
             <CRow>
 
           <CCard style={{width: "43rem"}}>
+          <CForm className="form-horizontal" onSubmit={(e) => this.handleSubmit(e)}>
 
             <CCardBody>
-              <CForm className="form-horizontal">
                 <CFormGroup row>
                   <CCol md="12">
-                    <CInputGroup>
+                    <CInputGroup className="has-validation">
                     <CInputGroupPrepend>
                         <CInputGroupText>
                           <CIcon name="cil-user" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput id="input1-group3" name="input1-group3" placeholder="Username" />
+                      <CInput id="validationCustomUsername" name="input1-group3" 
+                        placeholder="Name or username" required
+                        value={this.state.username}
+                        onChange={this.onChangeUsername}  />
+                      <CInvalidFeedback invalid>Please choose a name or username.</CInvalidFeedback>
 
                       <CDropdown className="input-group-append">
                           <CDropdownToggle caret color="primary">
@@ -82,7 +160,6 @@ export default class Dashboard extends Component {
                         <CDropdownMenu>
                           <CDropdownItem onClick={()=>this.selectCategory("Person ID")}>Person ID</CDropdownItem>
                           <CDropdownItem onClick={()=>this.selectCategory("KeyWord")}>KeyWord</CDropdownItem>
-                          <CDropdownItem onClick={()=>this.selectCategory("All")}>All</CDropdownItem>
 
                         </CDropdownMenu>
                       </CDropdown>
@@ -92,7 +169,7 @@ export default class Dashboard extends Component {
                 </CFormGroup>
 
                 <CFormGroup row>
-                  <CCol md="12">
+{/*                   <CCol md="12">
                   <CInputGroup>
                       <CInputGroupAppend>
                         <CInputGroupText>
@@ -101,69 +178,124 @@ export default class Dashboard extends Component {
                       </CInputGroupAppend>
                       <CInput id="input1-group1" name="input1-group1" placeholder="Location" />
                     </CInputGroup>
-                  </CCol>
+                  </CCol> */}
                 </CFormGroup>
-              </CForm>
-              {!this.state.showAdvanced ?  <CButton onClick={() => this.toggleAdvancedSearch(true)}>Advanced search</CButton>
-              : <CButton onClick={() => this.toggleAdvancedSearch(false)}>Hide advanced search</CButton>
+              
+              {!this.state.showAdvanced ?  <CButton color={"info"} onClick={() => this.toggleAdvancedSearch(true)}>Advanced search</CButton>
+              : <CButton color={"info"} onClick={() => this.toggleAdvancedSearch(false)}>Hide advanced search</CButton>
                }
              
 
               {this.state.showAdvanced ? 
-                      <CCard style={{width: "40rem", marginTop: "1rem"}} >
+                      <CCard style={{width: "100%", marginTop: "1rem"}} >
                         <CCardHeader>
-                          Company
+                          Search
                           <small> Form</small>
                         </CCardHeader>
                         <CCardBody>
-                          <CFormGroup>
-                            <CLabel htmlFor="company">Company</CLabel>
-                            <CInput id="company" placeholder="Enter your company name" />
-                          </CFormGroup>
-                          <CFormGroup>
-                            <CLabel htmlFor="vat">VAT</CLabel>
-                            <CInput id="vat" placeholder="DE1234567890" />
-                          </CFormGroup>
-                          <CFormGroup>
-                            <CLabel htmlFor="street">Street</CLabel>
-                            <CInput id="street" placeholder="Enter street name" />
-                          </CFormGroup>
-                          <CFormGroup row className="my-0">
-                            <CCol xs="8">
-                              <CFormGroup>
-                                <CLabel htmlFor="city">City</CLabel>
-                                <CInput id="city" placeholder="Enter your city" />
-                              </CFormGroup>
-                            </CCol>
-                            <CCol xs="4">
-                              <CFormGroup>
-                                <CLabel htmlFor="postal-code">Postal Code</CLabel>
-                                <CInput id="postal-code" placeholder="Postal Code" />
-                              </CFormGroup>
-                            </CCol>
-                          </CFormGroup>
-                          <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel htmlFor="date-input">Date Input</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput type="date" id="date-input" name="date-input" placeholder="date" />
-                  </CCol>
-                </CFormGroup>
-                          <CFormGroup>
-                            <CLabel htmlFor="country">Country</CLabel>
-                            <CInput id="country" placeholder="Country name" />
-                          </CFormGroup>
-                        </CCardBody>
-                      </CCard>  : []}
-            </CCardBody>
-            <CCardFooter>
-              <CButton type="submit" size="sm" color="success"><CIcon name="cil-scrubber" /> Submit</CButton>
-            </CCardFooter>
-          </CCard>
 
+                        <CFormGroup >
+                          <CRow style={{marginLeft: "2px"}}>
+                          <CLabel>Filter Social Media</CLabel>
+
+                          </CRow>
+
+                    <CFormGroup variant="custom-checkbox" inline style={{marginLeft: "1%"}}>
+                      <CInputCheckbox 
+                        custom 
+                        id="inline-checkbox1" 
+                        name="inline-checkbox1" 
+                        value="option1" 
+                        onChange={this.toggleTwitter}
+                        defaultChecked={true}
+                      />
+                      <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">Twitter</CLabel>
+                    </CFormGroup>
+                    <CFormGroup variant="custom-checkbox" inline>
+                      <CInputCheckbox custom id="inline-checkbox2" name="inline-checkbox2" value="option2" defaultChecked={true} onChange={this.toggleFacebook}/>
+                      <CLabel variant="custom-checkbox" htmlFor="inline-checkbox2">Facebook</CLabel>
+                    </CFormGroup>
+                    <CFormGroup variant="custom-checkbox" inline>
+                      <CInputCheckbox custom id="inline-checkbox4" name="inline-checkbox4" value="option4" defaultChecked={true} onChange={this.toggleInstagram}/>
+                      <CLabel variant="custom-checkbox" htmlFor="inline-checkbox4">Instagram</CLabel>
+                    </CFormGroup>
+                    <CFormGroup variant="custom-checkbox" inline>
+                      <CInputCheckbox custom id="inline-checkbox3" name="inline-checkbox3" value="option3" defaultChecked={true} onChange={this.toggleLinkedin} />
+                      <CLabel variant="custom-checkbox" htmlFor="inline-checkbox3">LinkedIn</CLabel>
+                    </CFormGroup>
+
+
+                </CFormGroup>
+
+                      <CFormGroup variant="label" inline>
+
+                        </CFormGroup>
+                            <CFormGroup  >
+                            <CLabel >Select username for each social network</CLabel>
+
+                            <CInputGroup   style={{paddingRight: "50%"}}>
+                            <CInputGroupPrepend>
+                              <CInputGroupText>Twitter</CInputGroupText>
+                            </CInputGroupPrepend>
+                            <CInput  disabled={this.state.uTwitter == null}
+                                  label="Name"
+                                  placeholder="Enter Twitter username"
+                                  value={this.state.uTwitter}
+                                  onChange={this.onChangeuTwitter}
+                                />
+                          </CInputGroup>
+                          
+                          <CInputGroup   style={{paddingRight: "50%", paddingTop: "1rem"}}>
+                            <CInputGroupPrepend>
+                              <CInputGroupText>Facebook</CInputGroupText>
+                            </CInputGroupPrepend>
+                            <CInput  disabled={this.state.uFacebook == null}
+                                  label="Name"
+                                  placeholder="Enter facebook username"
+                                  value={this.state.uFacebook}
+                                  onChange={this.onChangeuFacebook}
+                                />
+                          </CInputGroup>
+
+                        </CFormGroup>
+
+                        <CInputGroup   style={{paddingRight: "50%"}}>
+                            <CInputGroupPrepend>
+                              <CInputGroupText>Instagram</CInputGroupText>
+                            </CInputGroupPrepend>
+                            <CInput  disabled={this.state.uInstagram == null}
+                                  label="Name"
+                                  placeholder="Enter Instagram username"
+                                  value={this.state.uInstagram}
+                                  onChange={this.onChangeuInstagram}
+                                />
+                          </CInputGroup>
+
+                          <CInputGroup   style={{paddingRight: "50%", paddingTop: "1rem"}}>
+                            <CInputGroupPrepend>
+                              <CInputGroupText>LinkedIn</CInputGroupText>
+                            </CInputGroupPrepend>
+                            <CInput  disabled={this.state.uLinkedin == null}
+                                  label="Name"
+                                  placeholder="Enter LinkedIn username"
+                                  value={this.state.uLinkedin}
+                                  onChange={this.onChangeuLinkedin}
+                                />
+                          </CInputGroup>
+
+                        </CCardBody>
+                      </CCard>  : []
+                      }
+            </CCardBody>
+
+            
+            <CCardFooter>
+              <CButton type="submit" size="m" color="primary"><CIcon name="cil-scrubber" /> Submit</CButton>
+            </CCardFooter>
+            </CForm>
+
+          </CCard>
           </CRow>
-          
         </CCardBody>
         <CCardFooter>
           

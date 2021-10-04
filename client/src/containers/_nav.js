@@ -78,7 +78,7 @@ const _nav =  [
 
 
   
-  {
+/*    {
     _tag: 'CSidebarNavTitle',
     _children: ['']
   },  
@@ -291,7 +291,7 @@ const _nav =  [
   {
     _tag: 'CSidebarNavDivider',
     className: 'm-2'
-  }
+  }  */
 ]
 
 export default _nav

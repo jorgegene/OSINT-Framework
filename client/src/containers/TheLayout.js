@@ -13,8 +13,10 @@ const TheLayout = (props) => {
   const state = useSelector((state) => state);
   console.log(state, props)
   const path = props.location.pathname
-  if (!state.auth_reducer.isLoggedIn && path !== "/" && path !== "/#" && path !== "/#/" ){
-    return <Login  {...props} />
+  //if (!state.auth_reducer.isLoggedIn && path !== "/" && path !== "/#" && path !== "/#/" ){
+  //  return <Login  {...props} />
+    if (!state.auth_reducer.isLoggedIn ){
+      return <Login  {...props} />
 }
   return (
     <div className="c-app c-default-layout">

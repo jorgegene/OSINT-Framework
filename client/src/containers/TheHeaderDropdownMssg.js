@@ -10,7 +10,7 @@ import {
 import CIcon from '@coreui/icons-react'
 
 const TheHeaderDropdownMssg = () => {
-  const itemsCount = 4
+  const itemsCount = 1
   return (
     <CDropdown
       inNav
@@ -34,62 +34,21 @@ const TheHeaderDropdownMssg = () => {
 
             </div>
             <div>
-              <small className="text-muted">John Doe</small>
               <small className="text-muted float-right mt-1">Just now</small>
             </div>
             <div className="text-truncate font-weight-bold">
-              <span className="fa fa-exclamation text-danger"></span> Important message
+              <span className="fa fa-exclamation text-danger"></span> Welcome to OSINT Lab!
             </div>
-            <div className="small text-muted text-truncate">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...
+            <div className="small">
+             The current software is in beta, if you detect any bug contact us. 
             </div>
-          </div>
-        </CDropdownItem>
-
-        <CDropdownItem href="#">
-          <div className="message">
-            <div className="pt-3 mr-3 float-left">
-
-            </div>
-            <div>
-              <small className="text-muted">Jane Dovve</small>
-              <small className="text-muted float-right mt-1">5 minutes ago</small>
-            </div>
-            <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-            <div className="small text-muted text-truncate">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...
+            <div className="small">
+             If you are a developer feel free to contribute to the project.
             </div>
           </div>
         </CDropdownItem>
 
-        <CDropdownItem href="#">
-          <div className="message">
-            <div className="pt-3 mr-3 float-left">
-              
-            </div>
-            <div>
-              <small className="text-muted">Janet Doe</small>
-              <small className="text-muted float-right mt-1">1:52 PM</small>
-            </div>
-            <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-            <div className="small text-muted text-truncate">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...
-            </div>
-          </div>
-        </CDropdownItem>
 
-        <CDropdownItem href="#">
-          <div className="message">
-            <div className="pt-3 mr-3 float-left">
-
-            </div>
-            <div>
-              <small className="text-muted">Joe Doe</small>
-              <small className="text-muted float-right mt-1">4:03 AM</small>
-            </div>
-            <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-            <div className="small text-muted text-truncate">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...
-            </div>
-          </div>
-        </CDropdownItem>
         <CDropdownItem href="#" className="text-center border-top"><strong>View all messages</strong></CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

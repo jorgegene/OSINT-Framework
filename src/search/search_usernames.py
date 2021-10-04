@@ -1,4 +1,5 @@
 from googlesearch import lucky as google_search
+from googlesearch import search as search
 import re
 
 def get_usernames(name):
@@ -8,8 +9,23 @@ def get_usernames(name):
     linkedin_query = name + " linkedin"
     twitter_url = google_search(twitter_query,tld="es")
     insta_url = google_search(insta_query,tld="es")
-    facebook_url = google_search(facebook_query,tld="es")
-    linkedin_url = google_search(linkedin_query,tld="es")
+    facebook_url = ""
+    for j in search(facebook_query,tld="es", num=10, stop=10, pause=2):
+        if "public" in j:
+            pass
+        else:
+            facebook_url = j
+            print (j)
+            break
+
+    linkedin_url = ""
+    for j in search(linkedin_query,tld="es", num=10, stop=10, pause=2):
+        if ("pub" and "dir") in j:
+            pass
+        else:
+            linkedin_url = j
+            print (j)
+            break
     #print (twitter_username)
     #print (insta_username)
     #print (facebook_username)

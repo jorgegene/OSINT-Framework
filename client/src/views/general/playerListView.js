@@ -34,10 +34,14 @@ const Typography = (props) => {
 
 
   const [username, setUsername] = useState("");
+  const [uTwitter, setuTwitter] = useState("");
+  const [uFacebook, setuFacebook] = useState("");
+  const [uLinkedin, setuLinkedin] = useState("");
+  const [uInstagram, setuInstagram] = useState("");
 
   const usersData = [
-    {id: 0, name: 'John Doe', location: '2018/01/01', email: 'Guest', socia_media: 'Twitter, Instagram', phone: 20000},
-    {id: 1, name: 'Samppa Nori', location: '2018/01/01', email: 'Member', socia_media: 'Twitter, Instagram, LinkedIn', phone: 20000},
+    {id: 0, name: 'Cristiano Ronaldo', date: '2021-10-05 18:00:02 UTC',  socia_media: 'Twitter, Instagram'},
+    {id: 1, name: 'Chema Alonso', date: '2021-10-05 18:01:10 UTC',  socia_media: 'Twitter, Instagram, LinkedIn'},
 
   ]
 
@@ -62,10 +66,8 @@ const Typography = (props) => {
 
   const fields = [
     { key: 'name', _style: { width: '20%'} },
-    { key: 'email', _style: { width: '20%'} },
-    { key: 'phone', _style: { width: '20%'} },
+    { key: 'date', _style: { width: '20%'} },
     { key: 'socia_media', _style: { width: '40%'} },
-    { key: 'location', _style: { width: '20%'} },
 
     {
       key: 'show_details',
@@ -77,19 +79,71 @@ const Typography = (props) => {
   ]
 
 
-
-  const handleSubmit = (e, props) => {
+  const  onChangeuTwitter = (e) => {
+    const uTwitter = e.target.value;
+    setuTwitter(uTwitter);
+  };
+  const  onChangeuFacebook = (e) => {
+    const uFacebook = e.target.value;
+    setuFacebook(uFacebook)
+  };
+  const  onChangeuInstagram = (e) => {
+    const uInstagram = e.target.value;
+    setuInstagram(uInstagram)
+  };
+  const  onChangeuLinkedin = (e) => {
+    const uLinkedin = e.target.value;
+    setuLinkedin(uLinkedin)
+  };
+  
+  const toggleTwitter = () => {
+    if (uTwitter == null){
+      setuTwitter("");
+    } else{
+      setuTwitter(null);
+    }
+  }
+  const toggleFacebook = () => {
+    if (uFacebook == null){
+      setuFacebook("")
+    } else{
+      setuFacebook(null)
+    }
+  }
+  const toggleInstagram = () => {
+    if (uInstagram == null){
+      setuInstagram("")
+    } else{
+      setuInstagram(null)
+    }
+  }
+  const toggleLinkedin = () => {
+    if (uLinkedin == null){
+      setuLinkedin("")
+    } else{
+      setuLinkedin(null)
+    }
+  }
+  
+  const handleSubmit = (e) => {
     console.log("submit",e, username)
     e.preventDefault();
     const form = e.currentTarget
     props.history.push({
       pathname: `/tools/finder/${username}`,
       //search: '?query=abc',
-      state: { username: username }
+      state: { 
+        username: username,
+      uTwitter: uTwitter,
+      uFacebook: uFacebook,
+      uInstagram: uInstagram,
+      uLinkedin: uLinkedin, 
+      exception: true
+    }
     });
-
-
+  
   };
+
 
   return (
     <CContainer>
@@ -98,7 +152,6 @@ const Typography = (props) => {
       <CCard style={{width:"80rem"}} >
             <CCardHeader>
               Search Filters
-              <DocsLink name="-Input"/>
             </CCardHeader>
             <CCardBody >
             <CRow>
@@ -120,110 +173,102 @@ const Typography = (props) => {
                 </CFormGroup>
 
                 </CCol>
-
-              </CRow>
-              <CRow>
-                <CCol xs="4">
-                  <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Region</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                      <option value="11">11</option>
-                      <option value="12">12</option>
-                    </CSelect>
-                  </CFormGroup>
-                </CCol>
-                  
               </CRow>
 
-              <CRow>
-                <CCol xs="4">
-                  <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Rank</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth">
-                      <option value="1">Challenger</option>
-                      <option value="2">Master</option>
-                      <option value="3">Diamond1</option>
 
-                    </CSelect>
-                  </CFormGroup>
-                </CCol>
-                  
-              </CRow>
-              <CRow>
 
-              <CFormGroup row style={{marginLeft:"0.6rem"}}>
-                  <CCol md="3">
-                    <CLabel>Social Media</CLabel>
-                  </CCol>
-                  <CCol md="11">
-                    <CFormGroup variant="custom-checkbox" inline>
+              <CFormGroup >
+                          <CRow style={{marginLeft: "2px"}}>
+                          <CLabel>Filter Social Media</CLabel>
+
+                          </CRow>
+
+                    <CFormGroup variant="custom-checkbox" inline style={{marginLeft: "1%"}}>
                       <CInputCheckbox 
                         custom 
                         id="inline-checkbox1" 
                         name="inline-checkbox1" 
                         value="option1" 
+                        onChange={toggleTwitter}
+                        defaultChecked={true}
                       />
                       <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">Twitter</CLabel>
                     </CFormGroup>
                     <CFormGroup variant="custom-checkbox" inline>
-                      <CInputCheckbox custom id="inline-checkbox2" name="inline-checkbox2" value="option2" />
+                      <CInputCheckbox custom id="inline-checkbox2" name="inline-checkbox2" value="option2" defaultChecked={true} onChange={toggleFacebook}/>
                       <CLabel variant="custom-checkbox" htmlFor="inline-checkbox2">Facebook</CLabel>
                     </CFormGroup>
                     <CFormGroup variant="custom-checkbox" inline>
-                      <CInputCheckbox custom id="inline-checkbox3" name="inline-checkbox3" value="option3" />
-                      <CLabel variant="custom-checkbox" htmlFor="inline-checkbox3">LinkedIn</CLabel>
-                    </CFormGroup>
-                    <CFormGroup variant="custom-checkbox" inline>
-                      <CInputCheckbox custom id="inline-checkbox4" name="inline-checkbox4" value="option4" />
+                      <CInputCheckbox custom id="inline-checkbox4" name="inline-checkbox4" value="option4" defaultChecked={true} onChange={toggleInstagram} />
                       <CLabel variant="custom-checkbox" htmlFor="inline-checkbox4">Instagram</CLabel>
                     </CFormGroup>
                     <CFormGroup variant="custom-checkbox" inline>
-                      <CInputCheckbox custom id="inline-checkbox5" name="inline-checkbox5" value="option5" />
-                      <CLabel variant="custom-checkbox" htmlFor="inline-checkbox5">Other</CLabel>
+                      <CInputCheckbox custom id="inline-checkbox3" name="inline-checkbox3" value="option3" defaultChecked={true} onChange={toggleLinkedin} />
+                      <CLabel variant="custom-checkbox" htmlFor="inline-checkbox3">LinkedIn</CLabel>
                     </CFormGroup>
-                  </CCol>
+
+
                 </CFormGroup>
-                </CRow>
 
-                <CRow>
-                <CCol xs="4">
-                  <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Experience</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
+                      <CFormGroup variant="label" inline>
 
-                    </CSelect>
-                  </CFormGroup>
-                </CCol>
-                  
-              </CRow>
+                        </CFormGroup>
+                            <CFormGroup  >
+                            <CLabel >Select username for each social network</CLabel>
 
-              <CRow>
-                <CCol xs="4">
-                  <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Status</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth">
-                      <option value="1">Free-Agent</option>
-                      <option value="2">Contract</option>
-                      <option value="3">No experience</option>
-                      <option value="4">4</option>
+                            <CInputGroup   style={{paddingRight: "50%"}}>
+                            <CInputGroupPrepend>
+                              <CInputGroupText>Twitter</CInputGroupText>
+                            </CInputGroupPrepend>
+                            <CInput  disabled={uTwitter == null}
+                                  label="Name"
+                                  placeholder="Enter Twitter username"
+                                  value={uTwitter}
+                                  onChange={onChangeuTwitter}
+                                />
+                          </CInputGroup>
+                          
+                          <CInputGroup   style={{paddingRight: "50%", paddingTop: "1rem"}}>
+                            <CInputGroupPrepend>
+                              <CInputGroupText>Facebook</CInputGroupText>
+                            </CInputGroupPrepend>
+                            <CInput  disabled={uFacebook == null}
+                                  label="Name"
+                                  placeholder="Enter facebook username"
+                                  value={uFacebook}
+                                  onChange={onChangeuFacebook}
+                                />
+                          </CInputGroup>
 
-                    </CSelect>
-                  </CFormGroup>
-                </CCol>
+                        </CFormGroup>
 
-              </CRow>
+                        <CInputGroup   style={{paddingRight: "50%"}}>
+                            <CInputGroupPrepend>
+                              <CInputGroupText>Instagram</CInputGroupText>
+                            </CInputGroupPrepend>
+                            <CInput  disabled={uInstagram == null}
+                                  label="Name"
+                                  placeholder="Enter Instagram username"
+                                  value={uInstagram}
+                                  onChange={onChangeuInstagram}
+                                />
+                          </CInputGroup>
+
+                          <CInputGroup   style={{paddingRight: "50%", paddingTop: "1rem"}}>
+                            <CInputGroupPrepend>
+                              <CInputGroupText>LinkedIn</CInputGroupText>
+                            </CInputGroupPrepend>
+                            <CInput  disabled={uLinkedin == null}
+                                  label="Name"
+                                  placeholder="Enter LinkedIn username"
+                                  value={uLinkedin}
+                                  onChange={onChangeuLinkedin}
+                                />
+                          </CInputGroup>
+
+
+
+
               <CRow style={{padding:"1rem"}}>
               <div className="form-actions">
                       <CButton type="submit" color="primary" >Search</CButton>
@@ -254,7 +299,7 @@ const Typography = (props) => {
     <CRow >
 
     <CCard style={{width:"80rem", padding: "2rem"}}>
-    <h3>Results</h3>
+    <h3>Recent Searches</h3>
     <CDataTable
       items={usersData}
       fields={fields}

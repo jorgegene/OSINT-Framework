@@ -7,6 +7,7 @@ import instagram_reducer from "./instagram";
 import facebook_reducer from "./facebook";
 import linkedin_reducer from "./linkedin";
 
+import search_reducer from "./search";
 
 export default combineReducers({
     auth_reducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   instagram_reducer,
   facebook_reducer,
   linkedin_reducer,
+  search_reducer,
 });

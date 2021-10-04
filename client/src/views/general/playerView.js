@@ -31,15 +31,16 @@ import { NavLink } from 'react-router-dom'
 
 import {useParams} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { get_tweets_user } from "../../actions/tweets";
-import { get_insta_posts_user } from "../../actions/instagram";
+import { get_tweets_user, get_twitter_profile } from "../../actions/tweets";
+import { get_insta_posts_user, get_insta_profile } from "../../actions/instagram";
 import { get_facebook_profile_user } from "../../actions/facebook";
 import { get_linkedin_profile_user } from "../../actions/linkedin";
 
+import { get_usernames, reset_search } from "../../actions/search";
+import Search from "../../services/search.service";
 
 const Cards = (props) => {
-  const [collapsed, setCollapsed] = React.useState(true)
-  const [showCard, setShowCard] = React.useState(true)
+
   const {name} = useParams()
   const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
   const lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.'
@@ -48,23 +49,227 @@ const Cards = (props) => {
   const dispatch = useDispatch();
   const [tweets, setTweets] = useState('')
   const [isLoading, setIsLoading] = useState(false);
+  const [profileImg, setProfileImg] = useState(null);
 
 
   const state = useSelector((state) => state);
-  //console.log("vie", props, props.match.params.name)
+  
+  //console.log("------vie", props, state)
 
-
+  const old_state = props.location.state
   let username = props.match.params.name
-  let profile_pic = "https://ttensports.com/wp-content/uploads/1982/02/person-placeholder-245x300.jpg"
+  let profile_pic_placeholder = "https://ttensports.com/wp-content/uploads/1982/02/person-placeholder-245x300.jpg"
 
-  useEffect(async() => {
+  let uTwitter = null
+  let uFacebook = null
+  let uInstagram = null
+  let uLinkedin = null
+
+  if (old_state != undefined && old_state.exception != undefined){
+
+    if (old_state.uTwitter != null){
+      if (old_state.uTwitter.length > 0){
+        uTwitter = old_state.uTwitter 
+      } else{
+        uTwitter = ""
+      }
+    } 
+    if (old_state.uFacebook != null){
+      if (old_state.uFacebook.length > 0){
+        uFacebook = old_state.uFacebook 
+      } else{
+        uFacebook = ""
+      }
+    } 
+    if (old_state.uInstagram != null){
+      if (old_state.uInstagram.length > 0){
+        uInstagram = old_state.uInstagram 
+      } else{
+        uInstagram = ""
+      }
+    } 
+    if (old_state.uLinkedin != null){
+      if (old_state.uLinkedin.length > 0){
+        uLinkedin = old_state.uLinkedin 
+      } else {
+        uLinkedin = ""
+      }
+    } 
+  } else{
+    console.log("#############\n######################")
+    uTwitter = ""
+    uFacebook = ""
+    uInstagram = ""
+    uLinkedin = ""
+  }
+
+  
+  useEffect(() => {
+    dispatch(reset_search())
+
     console.log("Searching tweets", username)
-      dispatch(get_tweets_user(username))
-      dispatch(get_insta_posts_user(username))
-      dispatch(get_facebook_profile_user(username))
-      dispatch(get_linkedin_profile_user(username))
+    Search.get_usernames(username).then(function(res) {
+      console.log("Search", res)
+      dispatch(get_usernames(username))
+
+      if (uTwitter !== null ) {
+        if (uTwitter.length == 0){
+          uTwitter = res.usernames.twitter_username
+        }
+        console.log("####---#########\n#########----#############")
+        dispatch(get_tweets_user(uTwitter))
+        dispatch(get_twitter_profile(uTwitter))
+      }
+      if (uInstagram !== null ) {
+        if (uInstagram.length == 0){
+          uInstagram = res.usernames.insta_username
+        }
+        dispatch(get_insta_posts_user(uInstagram))
+        dispatch(get_insta_profile(uInstagram))
+  
+      }
+      if (uFacebook !== null ) {
+        if (uFacebook.length == 0){
+          uFacebook = res.usernames.facebook_username
+        }
+        dispatch(get_facebook_profile_user(uFacebook))
+  
+      }
+      if (uLinkedin !== null ) {
+        if (uLinkedin.length == 0){
+          uLinkedin = res.usernames.linkedin_username
+        }
+        dispatch(get_linkedin_profile_user(uLinkedin))
+  
+      }
+    })
+
 
   }, []);
+
+
+  const profile_img = () => {
+    let p = state.tweet_reducer.twitter_profile
+    let p2 = state.instagram_reducer.insta_profile
+    let p3 = state.facebook_reducer.profile
+    if(p != null && p.profile_image !== undefined){
+      return (
+        <CImg
+        height="100rem" width="100rem" shape="rounded-circle"
+       src={ p.profile_image}
+         fluid
+         className="mb-2"
+       />
+      )
+    }
+
+    else if(p2 != null && p2.profile_image !== undefined){
+      return (
+        <CImg
+        height="100rem" width="100rem" shape="rounded-circle"
+       src={ p2.profile_image}
+         fluid
+         className="mb-2"
+       />
+      )
+    }
+    else if(p3 != null && p3.profile_picture !== undefined){
+      return (
+        <CImg
+        height="100rem" width="100rem" shape="rounded-circle"
+       src={ p3.profile_picture}
+         fluid
+         className="mb-2"
+       />
+      )
+    } else{
+      return (
+        <CImg
+        height="100rem" width="100rem" shape="rounded-circle"
+       src={ profile_pic_placeholder}
+         fluid
+         className="mb-2"
+       />
+      )
+    }
+  }
+  let search_component = () => {
+    if (isLoading || state.search_reducer.usernames === null){
+      return <p>Loading...</p>
+    } else{
+      const names = state.search_reducer.usernames
+
+      return (
+        <CContainer>
+
+         <CRow>
+         Twitter: <a href={`https://www.twitter.com/${names.twitter_username}`} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" >
+           {names.twitter_username} </a>
+         </CRow>
+         <CRow>
+           Facebook:<a href={`https://www.facebook.com/${names.facebook_username}`} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" > 
+           {names.facebook_username} </a>
+         </CRow>
+         <CRow>
+         LinkedIn: <a  href={`https://www.linkedin.com/${names.linkedin_username}`} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" >
+           {names.linkedin_username} </a>
+         </CRow>
+         <CRow>
+         Instagram: <a  href={`https://www.instagram.com/${names.insta_username}`} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" >
+           {names.insta_username} </a>
+         </CRow>
+
+       </CContainer>
+      )
+    }
+  }
+
+  let twitter_profile_component = () => {
+    if ( state.tweet_reducer.twitter_profile === null){
+      return <p>Loading...</p>
+    } else{
+      let p = state.tweet_reducer.twitter_profile
+
+      return (
+      <CContainer style={{margin: "1rem"}}>
+
+        <CRow>
+          <CCol xs="6" sm="1" md="1">
+
+       {p.profile_image !== undefined ?
+                     <CImg
+                     src={p.profile_image}
+                     width="300px"
+                     height="300px"
+                     shape="rounded"
+                     thumbnail
+                     className="mb-2"
+                   /> :
+                   []             
+      }
+       </CCol>
+      <CCol>
+          <CRow>
+            <h5>
+            Username: {p.username}
+            </h5>
+          </CRow>
+          <CRow>
+            <h5>
+            Follows: {p.followees}
+            </h5>
+          </CRow>
+          <CRow>
+            <h5>
+            Followers: {p.followers}
+            </h5>
+          </CRow>
+          </CCol>
+          </CRow>
+      </CContainer>
+      )
+    }
+  }
 
   let tweets_component = () => {
     if (isLoading || state.tweet_reducer.tweets === null){
@@ -97,6 +302,20 @@ const Cards = (props) => {
                    []             
               }
 
+              <CRow style={{marginLeft: "10%", marginRight: "10%", marginTop: "3%"}}>
+                <CCol>
+                    <p>RT {tweet.retweets}</p>
+                </CCol>
+                <CCol>
+                <p>Likes {tweet.likes}</p>
+
+                  </CCol>
+                  <CCol>
+                  <p>Replies {tweet.replies}</p>
+
+                  </CCol>
+              </CRow>
+
    
 
               </div>
@@ -120,8 +339,9 @@ const Cards = (props) => {
         {
           state.instagram_reducer.insta_posts.map((post, index) => {
             let date = new Date(post.datetime).toISOString().slice(0,10);
+
             return (
-              <CContainer>
+              <CContainer style={{marginBottom: "5%"}}>
                   <CCol>
                     {post.post_image !== undefined ?
                         <CImg
@@ -138,8 +358,9 @@ const Cards = (props) => {
                   <CCol>
                       <CRow>
                       <p style={{marginRight: "10px"}}>{post.username}</p>
-                      <p>{date}</p>
-                      
+                      <p style={{marginRight: "10px"}}>{date}</p>
+                      <p>likes {post.likes}</p>
+
                       </CRow>
                       <CRow>
                         {post.post_data}
@@ -154,18 +375,67 @@ const Cards = (props) => {
       )
     }
   }
+  let insta_profile_component = () => {
+    if ( state.instagram_reducer.insta_profile === null){
+      return <p>Loading...</p>
+    } else{
+      let p = state.instagram_reducer.insta_profile
 
 
+      return (
+      <CContainer style={{margin: "1rem"}}>
+
+        <CRow>
+          <CCol xs="6" sm="1" md="1">
+
+       {p.profile_image !== undefined ?
+                     <CImg
+                     src={p.profile_image}
+                     width="300px"
+                     height="300px"
+                     shape="rounded"
+                     thumbnail
+                     className="mb-2"
+                   /> :
+                   []             
+      }
+       </CCol>
+      <CCol>
+          <CRow>
+            <h5>
+            Username: {p.username}
+            </h5>
+          </CRow>
+          <CRow>
+            <h5>
+            Follows: {p.followees}
+            </h5>
+          </CRow>
+          <CRow>
+            <h5>
+            Followers: {p.followers}
+            </h5>
+          </CRow>
+
+          <CRow>
+            <h5>
+            Bio: {p.biography}
+            </h5>
+          </CRow>
+
+          </CCol>
+          </CRow>
+      </CContainer>
+      )
+    }
+  }
   let facebook_component = () => {
-    console.log(state)
     if ( state.facebook_reducer.profile === null){
       return <p>Loading...</p>
     } else{
       let p = state.facebook_reducer.profile
 
-      if(p.profile_picture !== undefined){
-        profile_pic = p.profile_picture
-      }
+
       return (
       <CContainer>
        {p.profile_picture !== undefined ?
@@ -178,29 +448,36 @@ const Cards = (props) => {
                    /> :
                    []             
       }
+      <CContainer style={{margin: "3%"}}>
         <CRow>
-          Name: {p.name}
+          <h5>Name: {p.name}</h5>
         </CRow>
         <CRow>
-          Username: {p.username}
+          <h5>Username: {p.username}</h5>
+          
         </CRow>
         <CRow>
-        contact_info: {p.contact_info}
+          <h5>contact_info: {p.contact_info}</h5>
         </CRow>
 
         <CRow>
-        Education: {p.education}
+          <h5>Education: {p.education}</h5>
+        
         </CRow>
         <CRow>
-        Basic Info: {p.basic_info}
+          <h5>Basic Info: {p.basic_info}</h5>
         </CRow>
         <CRow>
-        Life Events: {p.life_events}
+          <h5>Life Events: {p.life_events}</h5>
+        
         </CRow>
+        </CContainer>
       </CContainer>
       )
     }
   }
+
+
 
   let linkedin_component = () => {
     console.log(state)
@@ -254,31 +531,34 @@ const Cards = (props) => {
     <CContainer fluid xxl>
     
       <CRow>
-        <CCol xs="12" sm="6" md="4">
+        <CCol xs="12" sm="6" md="5">
           <CCard>
             <CCardHeader>
-                      <div class="container">
-            <div class="row">
-              <div class="col-lg">
-              <CImg
-                   height="200rem"
-                  shape="rounded-circle"
-                  src={profile_pic}
-                    fluid
-                    className="mb-2"
-                  />
-              </div>
-              <div class="col-md">
-              {username}
-              </div>
+              <CContainer>
 
-            </div>
-          </div>
+              <CRow>
+
+              <CCol  xs="3" sm="3" md="3">
+                { profile_img() }
+
+                </CCol >
+
+                <CCol  xs="9" sm="9" md="9">
+                <h1>{username}</h1>
+
+                </CCol> 
+
+              </CRow>
+              </CContainer>
+
+
+
 
           </CCardHeader>
 
             <CCardBody>
-            {`${lorem}`}                 
+{/*               <p>Bio</p>
+ */}                            
 
             </CCardBody>
           </CCard>
@@ -286,15 +566,19 @@ const Cards = (props) => {
 
         </CCol>
         
-        <CCol xs="12" sm="6" md="4">
+        <CCol xs="12" sm="6" md="5">
           <CCard>
             <CCardHeader>
-            Stats
+              <h3>
+              Social Media Accounts Found
+              </h3>
+           
 
       </CCardHeader>
 
             <CCardBody>
-            {`${lorem}`}                 
+              { search_component() }
+                            
 
             </CCardBody>
           </CCard>
@@ -302,64 +586,55 @@ const Cards = (props) => {
 
       </CRow>
 
-      <CRow>
-      <CCol xs="12" sm="6" md="4">
-          <CCard>
-            <CCardHeader>
-            Recent Games
-      </CCardHeader>
-            <CCardBody>
-            {`${lorem}`}                 
 
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
-      <CRow >
-      <WidgetsBrand style={{width:"60rem"}} withCharts/>
 
-      </CRow>
 
       <CRow >
 
       <CCard style={{width:"80rem"}}>
           <CCardHeader>
-            Index indentifiers
+            <h3>Social Media Activity</h3>
+            
           </CCardHeader>
           <CCardBody>
             <CTabs>
               <CNav variant="tabs">
-                <CNavItem>
+                { uTwitter != null ? <CNavItem>
                   <CNavLink>
                     Twitter
                   </CNavLink>
-                </CNavItem>
+                </CNavItem> : []}
+                { uFacebook != null ?
                 <CNavItem>
-                  <CNavLink >
-                    Facebook
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
+                <CNavLink >
+                  Facebook
+                </CNavLink>
+              </CNavItem>
+              : []
+                }
+
+                { uInstagram != null ? 
+                  <CNavItem>
                   <CNavLink >
                     Instagram
                   </CNavLink>
-                </CNavItem>
-                <CNavItem>
+                </CNavItem> : []}
+
+                { uLinkedin != null ? 
+                  <CNavItem>
                   <CNavLink>
                     LinkedIn
                   </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink>
-                    Other
-                  </CNavLink>
-                </CNavItem>
+                </CNavItem> : []}
+
+
+
               </CNav>
               <CTabContent>
                 <CTabPane>
                  <CCard>
                     <CCardHeader>
-                      List user tweets
+                      { twitter_profile_component() }
                     </CCardHeader>
                     <CCardBody>
                     
@@ -374,9 +649,7 @@ const Cards = (props) => {
                 <CTabPane>
 
                 <CCard>
-                    <CCardHeader>
-                      Profile
-                    </CCardHeader>
+
                     <CCardBody>
                     
                     { facebook_component()}
@@ -387,10 +660,35 @@ const Cards = (props) => {
 
                 </CTabPane>
                 <CTabPane>
-                  { instagram_component()}
+
+                <CCard>
+                <CCardHeader>
+
+                      {insta_profile_component()}
+                    </CCardHeader>
+                    <CCardBody>
+                    
+                    { instagram_component()}
+
+
+                    </CCardBody>
+                  </CCard>
+
+
                 </CTabPane>
                 <CTabPane>
-                { linkedin_component()}
+
+
+                <CCard>
+
+                    <CCardBody>
+                    
+                    { linkedin_component()}
+
+
+                    </CCardBody>
+                  </CCard>
+
                 </CTabPane>
                 <CTabPane>
                   {`3. ${lorem}`}
