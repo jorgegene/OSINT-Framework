@@ -1,10 +1,11 @@
 from linkedin_scraper import Person, actions
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+import os
 
 def get_linkedin_profile(username):
-    email = "osint.uem@gmail.com"
-    password = "osint1234"
+    email = os.environ['LINKEDIN_USER']
+    password = os.environ['LINKEDIN_PASSWORD']
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')

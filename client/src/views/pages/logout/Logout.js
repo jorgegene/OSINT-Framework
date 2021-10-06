@@ -45,8 +45,7 @@ const Logout = (props) => {
                 <CCardBody className="text-center">
                   <div>
                     <h2>Signed Out</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.</p>
+                    <p>Bye!.</p>
                     <Link to="/login">
                       <CButton color="primary" className="mt-3" active tabIndex={-1}>LogIn again!</CButton>
                     </Link>

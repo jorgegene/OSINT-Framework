@@ -24,6 +24,7 @@ services:
     command: 'sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:8000"'
     volumes:
       - ./:/app
+      - ./cookies.json:/app/src/facebook/cookies.json
     depends_on:
       - db
 
@@ -37,40 +38,40 @@ services:
     depends_on:
       - api
 
-  queue:
-    build:
-      context: .
-      args:
-        REQUIREMENTS_FILE: dev.txt
-    restart: unless-stopped
-    env_file: .env
-    command: sh /entrypoint-queue.sh
-    volumes:
-      - ./:/app
+  #queue:
+  #  build:
+  #    context: .
+  #    args:
+  #      REQUIREMENTS_FILE: dev.txt
+  #  restart: unless-stopped
+  #  env_file: .env
+  #  command: sh /entrypoint-queue.sh
+  #  volumes:
+  #    - ./:/app
 
-  beat:
-    build:
-      context: .
-      args:
-        REQUIREMENTS_FILE: dev.txt
-    restart: unless-stopped
-    env_file: .env
-    command: sh /entrypoint-beat.sh
-    volumes:
-      - ./:/app
+  #beat:
+  #  build:
+  #    context: .
+  #    args:
+  #      REQUIREMENTS_FILE: dev.txt
+  #  restart: unless-stopped
+  #  env_file: .env
+  #  command: sh /entrypoint-beat.sh
+  #  volumes:
+  #    - ./:/app
 
-  redis:
-    image: redis:alpine
-    restart: unless-stopped
-    ports:
-      - 6379:6379
+  #redis:
+  #  image: redis:alpine
+  #  restart: unless-stopped
+  #  ports:
+  #    - 6379:6379
 
-  mailhog:
-    image: mailhog/mailhog:latest
-    restart: always
-    ports:
-      - 1025:1025
-      - 8025:8025
+  #mailhog:
+  #  image: mailhog/mailhog:latest
+  #  restart: always
+  #  ports:
+  #    - 1025:1025
+  #    - 8025:8025
 
   selenium:
     image: selenium/standalone-chrome

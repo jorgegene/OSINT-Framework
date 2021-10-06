@@ -20,7 +20,7 @@ const _nav =  [
     _children: ['Tools'],
   },
 
-
+  
   {
     _tag: 'CSidebarNavItem',
     name: 'ID Finder',
@@ -31,17 +31,7 @@ const _nav =  [
       text: 'NEW',
     },
   },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'X-Keyword',
-    to: '/tools/keyword',
-    icon: 'cil-find-in-page',
-    badge: {
-      color: 'secondary',
-      text: 'NEW',
-    },
-  },
-
+  
 
   {
     _tag: 'CSidebarNavTitle',
@@ -55,6 +45,7 @@ const _nav =  [
     to: '/about',
     icon: 'cil-book',
   },
+  /*
   {
     _tag: 'CSidebarNavItem',
     name: 'FAQ',
@@ -62,6 +53,7 @@ const _nav =  [
     icon: 'cil-task',
 
   },
+  
   {
     _tag: 'CSidebarNavItem',
     name: 'Contact us',
@@ -75,7 +67,7 @@ const _nav =  [
     to: '/contribute',
     icon: 'cil-code',
   },
-
+  */
 
   
 /*    {

@@ -51,7 +51,7 @@ const Random = () => {
 
               <CContainer style={{padding:"3rem"}} >
                 <h4>
-                Analysta SEARCH is the people search application used by top investigators and fraud analysts who need rich, current and historical identity information.
+                OSINT Lab is a web tool that allows investigators to search the digital footprint of a user in his social media.
 
                 </h4>
               </CContainer>
@@ -68,15 +68,7 @@ const Random = () => {
             <CRow>
               <CCol>
               <CContainer style={{padding:"1rem"}} >
-                  Ethically and Legally Sourced
-              </CContainer>
-              </CCol>
-              <CCol>
-
-              </CCol>
-              <CCol>
-              <CContainer style={{padding:"1rem"}} >
-                  Ethically and Legally Sourced
+                  The framework uses OSINT tools and techniques to retreive the data. Check the source repositorie to get more info.
               </CContainer>
               </CCol>
 
