@@ -32,7 +32,28 @@ class SearchViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
             username = str(self.request.query_params.get('username'))
             print (username)
             searched = get_usernames(username)
+            Search.objects.create(personal_name=searched['personal_name'],
+                twitter_username= searched['twitter_username'],
+                insta_username=searched['insta_username'],
+                facebook_username=['facebook_username'],
+                linkedin_username=searched['linkedin_username'],
+                twitter_url=searched['twitter_url'],
+                facebook_url=searched['facebook_url'],
+                insta_url=searched['insta_url'],
+                linkedin_url=searched['linkedin_url'])
             return Response(SearchSerializer(searched, context={'request': self.request}).data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'Wrong auth token' + e}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['get'])
+    def get_serach_list(self, request):
+        """"""
+        try:
+            query_set = Search.objects.all()
+            queries = {"searches": query_set}
+            print (query_set)
+            return Response(SearchSerializer(query_set, context={'request': self.request}, many=True).data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'Wrong auth token' + e}, status=status.HTTP_400_BAD_REQUEST)
+
 
