@@ -111,3 +111,4 @@ media/profile_pictures/*
 media/post_images/*
 media/profile_images/*
 !media/.gitkeep
+!media/profile_images/.gitkeep
