@@ -33,7 +33,7 @@ services:
       context: ./client
     restart: always
     ports:
-      - 80:80
+      - 9084:80
     env_file: ./client/.env
     depends_on:
       - api
