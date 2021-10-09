@@ -12,6 +12,8 @@ from rest_framework_simplejwt.views import (
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+from django.views.static import serve
+
 from src.social.views import exchange_token, complete_twitter_login
 from src.files.urls import files_router
 from src.users.urls import users_router
@@ -72,4 +74,8 @@ urlpatterns = [
 
     # the 'api-root' from django rest-frameworks default router
     re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False)),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
+
+] #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
