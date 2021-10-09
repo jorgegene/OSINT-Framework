@@ -6,28 +6,15 @@ Disclaimer: FOR EDUCATIONAL PURPOSE ONLY! The contributors do not assume any res
 ## Highlights
 
 - Ova file to deploy the VM with OSINT-Lab and other tools installed
-- 
-- Fully dockerized, local development via docker-compose.
-- PostgreSQL
-- Full test coverage, continuous integration, and continuous deployment.
-- Celery tasks
+- Docker based Web Application that allows investigators to recolect the digital footprint of a user in the social networks.
 
-### Features built-in
+## Installagion and Docs
 
-- JSON Web Token authentication using [Simple JWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
-- Social (FB + G+) signup/sigin
-- API Throttling enabled
-- Password reset endpoints
-- User model with profile picture field using Easy Thumbnails
-- Files management (thumbnails generated automatically for images)
-- Sentry setup
-- Swagger API docs out-of-the-box
-- CodeLinter (flake8) and CodeFormatter (yapf)
-- Tests (with mocking and factories) with code-coverage support
+User Guide and Installation Guide can be found in the docs directory.
 
-## Docs
+## OVA
 
-User Guide and Installation Guide can be found in the project directory.
+The VM image can be downloaded [here](https://drive.google.com/file/d/1mVOSBu7ezqw3MCCpb4zzhl-0zCF96uBl/view?usp=sharing)
 
 ## Prerequisites
 
