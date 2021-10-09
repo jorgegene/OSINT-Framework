@@ -8,7 +8,6 @@ const initialState =  { profile: null };
 
 export default function facebook_reducer(state = initialState, action) {
     const { type, payload } = action;
-    console.log(type, payload)
 
     switch (type) {
         case RETRIEVE_FACEBOOK_PROFILE_SUCCESS:

@@ -35,7 +35,7 @@ class SearchViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
             Search.objects.create(personal_name=searched['personal_name'],
                 twitter_username= searched['twitter_username'],
                 insta_username=searched['insta_username'],
-                facebook_username=['facebook_username'],
+                facebook_username=searched['facebook_username'],
                 linkedin_username=searched['linkedin_username'],
                 twitter_url=searched['twitter_url'],
                 facebook_url=searched['facebook_url'],

@@ -10,7 +10,6 @@ const initialState =  { insta_posts: null, insta_profile: null };
 
 export default function instagram_reducer(state = initialState, action) {
     const { type, payload } = action;
-    console.log(type, payload)
 
     switch (type) {
         case RETRIEVE_INSTA_POSTS_SUCCESS:

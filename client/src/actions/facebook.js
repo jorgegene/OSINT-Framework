@@ -10,7 +10,6 @@ import Facebook from "../services/facebook.service";
 export const get_facebook_profile_user = (username) => (dispatch) => {
   return Facebook.get_facebook_profile_user(username).then(
     (data) => {
-      console.log("data", data)
       dispatch({
         type: RETRIEVE_FACEBOOK_PROFILE_FAIL,
       });

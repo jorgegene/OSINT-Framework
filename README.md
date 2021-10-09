@@ -1,11 +1,12 @@
-# Python - Django Rest Framework boilerplate
+# OSINT-Framework
 
-This is boilerplate for starting fresh new DRF projects. It's built using [cookiecutter-django-rest](https://github.com/agconti/cookiecutter-django-rest).
+OSINT-Framework allows you to deploy a friendly environment to work with Open Source Intelligence tools and the OSINT-Lab web application. It's built using [python-django-drf-boilerplate](https://github.com/Vivify-Ideas/python-django-drf-boilerplate) and [coreui-free-react-admin-template](https://github.com/coreui/coreui-free-react-admin-template).
 
+Disclaimer: FOR EDUCATIONAL PURPOSE ONLY! The contributors do not assume any responsibility for the use of this tool.
 ## Highlights
 
-- Modern Python development with Python 3.8+
-- Bleeding edge Django 3.1+
+- Ova file to deploy the VM with OSINT-Lab and other tools installed
+- 
 - Fully dockerized, local development via docker-compose.
 - PostgreSQL
 - Full test coverage, continuous integration, and continuous deployment.
@@ -24,68 +25,28 @@ This is boilerplate for starting fresh new DRF projects. It's built using [cooki
 - CodeLinter (flake8) and CodeFormatter (yapf)
 - Tests (with mocking and factories) with code-coverage support
 
-## API Docs
+## Docs
 
-API documentation is automatically generated using Swagger. You can view documention by visiting this [link](http://localhost:8000/swagger).
+User Guide and Installation Guide can be found in the project directory.
 
 ## Prerequisites
 
-If you are familiar with Docker, then you just need [Docker](https://docs.docker.com/docker-for-mac/install/). If you don't want to use Docker, then you just need Python3 and Postgres installed.
+If you are familiar with Docker, then you just need [Docker](https://docs.docker.com/docker-for-mac/install/).
 
 ## Local Development with Docker
 
 Start the dev server for local development:
 
 ```bash
-cp .env.dist .env
+docker-compose build
 docker-compose up
-```
-
-Run a command inside the docker container:
-
-```bash
-docker-compose run --rm web [command]
-```
-
-## Local Development without Docker
-
-### Install
-
-```bash
-python3 -m venv env && source env/bin/activate                # activate venv
-cp .env.dist .env                                             # create .env file and fill-in DB info
-pip install -r requirements.txt                               # install py requirements
-./manage.py migrate                                           # run migrations
-./manage.py collectstatic --noinput                           # collect static files
-redis-server                                                  # run redis locally for celery
-celery -A src.config worker --beat --loglevel=debug
-  --pidfile="./celerybeat.pid"
-  --scheduler django_celery_beat.schedulers:DatabaseScheduler # run celery beat and worker
-```
-
-### Run dev server
-
-This will run server on [http://localhost:8000](http://localhost:8000)
-
-```bash
-./manage.py runserver
 ```
 
 ### Create superuser
 
-If you want, you can create initial super-user with next commad:
+If you want, you can create initial super-user with next commands:
 
 ```bash
+docker exec -it <api_container_id> /bin/bash
 ./manage.py createsuperuser
 ```
-
-### Running Tests
-
-To run all tests with code-coverate report, simple run:
-
-```bash
-./manage.py test
-```
-
-
-You're now ready to ROCK! ✨ 💅 🛳

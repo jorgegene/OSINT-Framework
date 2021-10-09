@@ -14,7 +14,6 @@ import Tweets from "../services/twitter.service";
 export const get_tweets_user = (username) => (dispatch) => {
   return Tweets.get_tweets_user(username).then(
     (data) => {
-      console.log("data", data)
       dispatch({
         type: RETRIEVE_TWEETS_FAIL,
       });
@@ -61,7 +60,6 @@ export const get_tweets_user = (username) => (dispatch) => {
 export const get_twitter_profile = (username) => (dispatch) => {
   return Tweets.get_twitter_profile(username).then(
     (data) => {
-      console.log("get_twitter_profile", data)
       dispatch({
         type: RETRIEVE_TWITTER_PROFILE_FAIL,
       });

@@ -305,7 +305,7 @@ handleSubmit = (e) => {
 
 
       <CRow >
-      <CCol xs="12" md="6">
+{/*       <CCol xs="12" md="6">
 
       <CCard style={{ marginTop: "1rem"}} >
         <CCardHeader>
@@ -384,13 +384,14 @@ handleSubmit = (e) => {
             </div>
         </CCardBody>
       </CCard> 
-      </CCol>
+      </CCol> */}
+
       <CCol xs="12" md="6">
 
       <CCard style={{ marginTop: "1rem"}} >
         <CCardHeader>
           <h3>
-          Stay Updated
+          How can I use OSINT Lab?
 
           </h3>
         </CCardHeader>
@@ -398,20 +399,17 @@ handleSubmit = (e) => {
         <CCardBody>
 
         <p>
-        Get updates on the reports you purchase for the lifetime of your Spokeo account; even if you don’t find all the results you were looking for at first, just wait — as our data refreshes, so too can your report!
-        </p>
+          Search publicly available sources of information about a person, you can search using just a name or a combination of known usernames. </p>
         </CCardBody>
       </CCard> 
       </CCol>
 
-      </CRow>
 
-      <CRow >
 
       <CCard style={{width: "40rem", marginTop: "1rem"}} >
         <CCardHeader>
           <h3>
-          120+ Social media platforms
+          4 Social media platforms
 
           </h3>
         </CCardHeader>
@@ -422,20 +420,8 @@ handleSubmit = (e) => {
               <CButton  className="btn-facebook btn-brand mr-1 mb-1"><CIcon  name="cib-facebook" /><span className="mfs-2">Facebook</span></CButton>
               <CButton  className="btn-twitter btn-brand mr-1 mb-1"><CIcon  name="cib-twitter" /><span className="mfs-2">Twitter</span></CButton>
               <CButton  className="btn-linkedin btn-brand mr-1 mb-1"><CIcon  name="cib-linkedin" /><span className="mfs-2">LinkedIn</span></CButton>
-              <CButton  className="btn-flickr btn-brand mr-1 mb-1"><CIcon  name="cib-flickr" /><span className="mfs-2">Flickr</span></CButton>
-              <CButton  className="btn-tumblr btn-brand mr-1 mb-1"><CIcon  name="cib-tumblr" /><span className="mfs-2">Tumblr</span></CButton>
-              <CButton  className="btn-xing btn-brand mr-1 mb-1"><CIcon  name="cib-xing" /><span className="mfs-2">Xing</span></CButton>
-              <CButton  className="btn-github btn-brand mr-1 mb-1"><CIcon  name="cib-github" /><span className="mfs-2">Github</span></CButton>
-              <CButton  className="btn-stack-overflow btn-brand mr-1 mb-1"><CIcon  name="cib-stackoverflow" /><span className="mfs-2">StackOverflow</span></CButton>
-              <CButton  className="btn-youtube btn-brand mr-1 mb-1"><CIcon  name="cib-youtube" /><span className="mfs-2">YouTube</span></CButton>
-              <CButton  className="btn-dribbble btn-brand mr-1 mb-1"><CIcon  name="cib-dribbble" /><span className="mfs-2">Dribbble</span></CButton>
               <CButton  className="btn-instagram btn-brand mr-1 mb-1"><CIcon  name="cib-instagram" /><span className="mfs-2">Instagram</span></CButton>
-              <CButton  className="btn-pinterest btn-brand mr-1 mb-1"><CIcon  name="cib-pinterest" /><span className="mfs-2">Pinterest</span></CButton>
-              <CButton  className="btn-vk btn-brand mr-1 mb-1"><CIcon  name="cib-vk" /><span className="mfs-2">VK</span></CButton>
-              <CButton  className="btn-yahoo btn-brand mr-1 mb-1"><CIcon  name="cib-yahoo" /><span className="mfs-2">Yahoo</span></CButton>
-              <CButton  className="btn-behance btn-brand mr-1 mb-1"><CIcon  name="cib-behance" /><span className="mfs-2">Behance</span></CButton>
-              <CButton  className="btn-reddit btn-brand mr-1 mb-1"><CIcon  name="cib-reddit" /><span className="mfs-2">Reddit</span></CButton>
-              <CButton  className="btn-vimeo btn-brand mr-1 mb-1"><CIcon  name="cib-vimeo" /><span className="mfs-2">Vimeo</span></CButton>
+              
             </p>
         </CCardBody>
       </CCard> 

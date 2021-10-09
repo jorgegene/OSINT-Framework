@@ -10,7 +10,6 @@ const initialState =  { tweets: null, twitter_profile: null };
 
 export default function tweet_reducer(state = initialState, action) {
     const { type, payload } = action;
-    console.log(type, payload)
 
     switch (type) {
         case RETRIEVE_TWEETS_SUCCESS:

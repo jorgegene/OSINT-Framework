@@ -10,7 +10,6 @@ import LinkedIn from "../services/linkedin.service";
 export const get_linkedin_profile_user = (username) => (dispatch) => {
   return LinkedIn.get_linkedin_profile_user(username).then(
     (data) => {
-      console.log("LunkiedIn data", data)
       dispatch({
         type: RETRIEVE_LINKEDIN_PROFILE_FAIL,
       });

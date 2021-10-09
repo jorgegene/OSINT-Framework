@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import {
   CCol,
-  CNav,
-  CButton,
   CContainer,
   CRow,
   CInputCheckbox,
@@ -11,13 +9,10 @@ import {
   CCardBody,
   CInput,
   CCardHeader,
-  CLabel,
-  CFormGroup,
+
   CImg,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { DocsLink } from 'src/reusable'
-import { NavLink } from 'react-router-dom'
+
 
 import logo from "../../assets/images/find-person.jpg";
 
@@ -68,7 +63,8 @@ const Random = () => {
             <CRow>
               <CCol>
               <CContainer style={{padding:"1rem"}} >
-                  The framework uses OSINT tools and techniques to retreive the data. Check the source repositorie to get more info.
+                  The framework uses OSINT tools and techniques to retreive the data. Check the
+                  <a href="https://github.com/jorgegene/OSINT-Framework" target="_blank"> source repository</a> to get more info.
               </CContainer>
               </CCol>
 

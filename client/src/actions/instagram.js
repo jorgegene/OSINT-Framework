@@ -12,7 +12,6 @@ import Instagram from "../services/instagram.service";
 export const get_insta_posts_user = (username) => (dispatch) => {
   return Instagram.get_insta_posts_user(username).then(
     (data) => {
-      console.log("data", data)
       dispatch({
         type: RETRIEVE_INSTA_POSTS_FAIL,
       });
@@ -59,7 +58,6 @@ export const get_insta_posts_user = (username) => (dispatch) => {
 export const get_insta_profile = (username) => (dispatch) => {
   return Instagram.get_insta_profile(username).then(
     (data) => {
-      console.log("get_insta_profile", data)
       dispatch({
         type: RETRIEVE_INSTA_PROFILE_FAIL,
       });

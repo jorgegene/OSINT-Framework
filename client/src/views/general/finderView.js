@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useCallback, lazy } from 'react';
 import {
   CButton,
   CCard,
@@ -21,16 +21,16 @@ import {
   CInputCheckbox
 } from '@coreui/react'
 import { withRouter } from "react-router";
-
-import { DocsLink } from 'src/reusable'
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import MaterialTable from "material-table";
 import { useHistory } from "react-router-dom";
+import { get_search_list, reset_search } from "../../actions/search";
 
 
 const Typography = (props) => {
   let history = useHistory();
+  const dispatch = useDispatch();
 
 
   const [username, setUsername] = useState("");
@@ -38,15 +38,18 @@ const Typography = (props) => {
   const [uFacebook, setuFacebook] = useState("");
   const [uLinkedin, setuLinkedin] = useState("");
   const [uInstagram, setuInstagram] = useState("");
+  const state = useSelector((state) => state);
 
-  const usersData = [
-    {id: 0, name: 'Cristiano Ronaldo', date: '2021-10-05 18:00:02 UTC',  socia_media: 'Twitter, Instagram'},
-    {id: 1, name: 'Chema Alonso', date: '2021-10-05 18:01:10 UTC',  socia_media: 'Twitter, Instagram, LinkedIn'},
 
-  ]
+  useEffect(() => {
+    //dispatch(reset_search())
+    dispatch(get_search_list())
+
+  }, []);
+
+
 
   const [details, setDetails] = React.useState([])
-  // const [items, setItems] = useState(usersData)
 
   const toggleDetails = (index) => {
     const position = details.indexOf(index)
@@ -65,9 +68,11 @@ const Typography = (props) => {
   };
 
   const fields = [
-    { key: 'name', _style: { width: '20%'} },
-    { key: 'date', _style: { width: '20%'} },
-    { key: 'socia_media', _style: { width: '40%'} },
+    { key: 'personal_name', _style: { width: '20%'} },
+    { key: 'twitter_username', _style: { width: '20%'} },
+    { key: 'facebook_username', _style: { width: '20%'} },
+    { key: 'insta_username', _style: { width: '20%'} },
+    { key: 'linkedin_username', _style: { width: '20%'} },
 
     {
       key: 'show_details',
@@ -301,7 +306,7 @@ const Typography = (props) => {
     <CCard style={{width:"80rem", padding: "2rem"}}>
     <h3>Recent Searches</h3>
     <CDataTable
-      items={usersData}
+      items={state.search_reducer.searches}
       fields={fields}
       columnFilter
       tableFilter
@@ -316,8 +321,16 @@ const Typography = (props) => {
           (item)=>(
             <td>
               <Link  to={{
-              pathname: `/tools/finder/${item.name}`,
-              state: { username: item.name }
+              pathname: `/tools/finder/${item.personal_name}`,
+              state: { 
+                username: item.personal_name,
+              uTwitter: item.twitter_username,
+              uFacebook: item.facebook_username,
+              uInstagram: item.insta_username,
+              uLinkedin: item.linkedin_username, 
+              exception: true
+            }
+
             }}  style={{ textDecoration: 'none'}}>
                 {item.name}
               </Link>
@@ -345,12 +358,26 @@ const Typography = (props) => {
               <CCollapse show={details.includes(index)}>
                 <CCardBody>
                   <h4>
-                    {item.username}
+                    {item.personal_name}
                   </h4>
-                  <p className="text-muted">User since: {item.registered}</p>
-                  <CButton onClick = {(event) => history.push("/players/"+item.name, {data:item})}
+                  <p className="text-muted">Query: {JSON.stringify(item)}</p>
+                  <CButton onClick = {(event) => 
+                      history.push({
+                        pathname: `/tools/finder/${item.personal_name}`,
+                        state: { 
+                          username: item.personal_name,
+                        uTwitter: item.twitter_username,
+                        uFacebook: item.facebook_username,
+                        uInstagram: item.insta_username,
+                        uLinkedin: item.linkedin_username, 
+                        exception: true
+                      }
+          
+                      })
+                    
+                    }
                     size="sm" color="info">
-                    Player Details
+                    Search Details
                   </CButton>
                   <CButton size="sm" color="danger" className="ml-1">
                     Delete

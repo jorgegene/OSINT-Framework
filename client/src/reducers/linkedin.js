@@ -8,7 +8,6 @@ const initialState =  { profile: null };
 
 export default function linkedin_reducer(state = initialState, action) {
     const { type, payload } = action;
-    console.log(type, payload)
 
     switch (type) {
         case RETRIEVE_LINKEDIN_PROFILE_SUCCESS:

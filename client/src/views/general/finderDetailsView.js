@@ -1,20 +1,11 @@
 import React, { useState, useEffect, useCallback, lazy } from 'react';
 import {
-  CBadge,
   CCard,
   CCardBody,
-  CCardFooter,
   CCardHeader,
   CCol,
   CRow,
-  CCollapse,
-  CFade,
-  CSwitch,
-  CLink,
   CImg,
-  CProgress,
-  CButton,
-  CCallout,
   CNav,
   CNavItem,
   CNavLink,
@@ -25,9 +16,7 @@ import {
   CListGroup,
   CContainer
 } from  '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { DocsLink } from 'src/reusable'
-import { NavLink } from 'react-router-dom'
+
 
 import {useParams} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,22 +28,16 @@ import { get_linkedin_profile_user } from "../../actions/linkedin";
 import { get_usernames, reset_search } from "../../actions/search";
 import Search from "../../services/search.service";
 
+
+
+
 const Cards = (props) => {
-
-  const {name} = useParams()
-  const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
-  const lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.'
-  
-  const { message } = useSelector(state => state.message_reducer);
   const dispatch = useDispatch();
-  const [tweets, setTweets] = useState('')
   const [isLoading, setIsLoading] = useState(false);
-  const [profileImg, setProfileImg] = useState(null);
-
+  const [usernames, setUsernames] = useState(null);
 
   const state = useSelector((state) => state);
   
-  //console.log("------vie", props, state)
 
   const old_state = props.location.state
   let username = props.match.params.name
@@ -96,27 +79,56 @@ const Cards = (props) => {
       }
     } 
   } else{
-    console.log("#############\n######################")
     uTwitter = ""
     uFacebook = ""
     uInstagram = ""
     uLinkedin = ""
   }
 
+  const SearchComponent = (props) => {
+    const { usernames } = props;
+    if ( usernames === null || usernames == undefined){
+      return <p>Loading...</p>
+    } else{
+      const names = usernames
+      console.log("SearchComponent", usernames)
+  
+      return (
+        <CContainer>
+  
+         <CRow>
+         <h5>Twitter: </h5><a href={names.twitter_url} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" >
+            {names.twitter_username} </a>
+         </CRow>
+         <CRow>
+           <h5>Facebook: </h5><a href={names.facebook_url} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" > 
+            {names.facebook_username} </a>
+         </CRow>
+         <CRow>
+         <h5>LinkedIn: </h5><a  href={names.linkedin_url} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" >
+            {names.linkedin_username} </a>
+         </CRow>
+         <CRow>
+         <h5>Instagram: </h5><a  href={names.insta_url} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" >
+            {names.insta_username} </a>
+         </CRow>
+  
+       </CContainer>
+      )
+    }
+  }
   
   useEffect(() => {
     dispatch(reset_search())
 
-    console.log("Searching tweets", username)
     Search.get_usernames(username).then(function(res) {
-      console.log("Search", res)
-      dispatch(get_usernames(username))
+      setUsernames(res.usernames)
+      console.log("searchset", res.usernames)
 
       if (uTwitter !== null ) {
         if (uTwitter.length == 0){
           uTwitter = res.usernames.twitter_username
         }
-        console.log("####---#########\n#########----#############")
         dispatch(get_tweets_user(uTwitter))
         dispatch(get_twitter_profile(uTwitter))
       }
@@ -152,22 +164,22 @@ const Cards = (props) => {
     let p = state.tweet_reducer.twitter_profile
     let p2 = state.instagram_reducer.insta_profile
     let p3 = state.facebook_reducer.profile
-    if(p != null && p.profile_image !== undefined){
+
+    if(p2 != null && p2.profile_image !== undefined){
       return (
         <CImg
         height="100rem" width="100rem" shape="rounded-circle"
-       src={ p.profile_image}
+       src={ p2.profile_image}
          fluid
          className="mb-2"
        />
       )
     }
-
-    else if(p2 != null && p2.profile_image !== undefined){
+    else if(p != null && p.profile_image !== undefined){
       return (
         <CImg
         height="100rem" width="100rem" shape="rounded-circle"
-       src={ p2.profile_image}
+       src={ p.profile_image}
          fluid
          className="mb-2"
        />
@@ -193,36 +205,7 @@ const Cards = (props) => {
       )
     }
   }
-  let search_component = () => {
-    if (isLoading || state.search_reducer.usernames === null){
-      return <p>Loading...</p>
-    } else{
-      const names = state.search_reducer.usernames
 
-      return (
-        <CContainer>
-
-         <CRow>
-         Twitter: <a href={`https://www.twitter.com/${names.twitter_username}`} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" >
-           {names.twitter_username} </a>
-         </CRow>
-         <CRow>
-           Facebook:<a href={`https://www.facebook.com/${names.facebook_username}`} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" > 
-           {names.facebook_username} </a>
-         </CRow>
-         <CRow>
-         LinkedIn: <a  href={`https://www.linkedin.com/${names.linkedin_username}`} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" >
-           {names.linkedin_username} </a>
-         </CRow>
-         <CRow>
-         Instagram: <a  href={`https://www.instagram.com/${names.insta_username}`} style={{ textDecoration: 'none', marginRight: "1rem" }} target="_blank" >
-           {names.insta_username} </a>
-         </CRow>
-
-       </CContainer>
-      )
-    }
-  }
 
   let twitter_profile_component = () => {
     if ( state.tweet_reducer.twitter_profile === null){
@@ -329,7 +312,6 @@ const Cards = (props) => {
   }
 
   let instagram_component = () => {
-    console.log(state)
     if (state.instagram_reducer.insta_posts === null){
       return <p>Loading...</p>
     } else{
@@ -437,8 +419,9 @@ const Cards = (props) => {
 
 
       return (
-      <CContainer>
-       {p.profile_picture !== undefined ?
+
+      <CContainer style={{margin: "3%"}}>
+      {p.profile_picture !== undefined ?
                      <CImg
                      src={p.profile_picture}
                      width="100px"
@@ -456,21 +439,27 @@ const Cards = (props) => {
           <h5>Username: {p.username}</h5>
           
         </CRow>
+
         <CRow>
           <h5>contact_info: {p.contact_info}</h5>
         </CRow>
-
+      { p.education !== undefined ?  
         <CRow>
           <h5>Education: {p.education}</h5>
         
-        </CRow>
+        </CRow> : []  }
+
+        { p.basic_info !== undefined ?  
         <CRow>
           <h5>Basic Info: {p.basic_info}</h5>
-        </CRow>
+        </CRow> : [] }
+
+        { p.life_events !== undefined ?  
         <CRow>
           <h5>Life Events: {p.life_events}</h5>
         
-        </CRow>
+        </CRow> : [] }
+
         </CContainer>
       </CContainer>
       )
@@ -480,7 +469,6 @@ const Cards = (props) => {
 
 
   let linkedin_component = () => {
-    console.log(state)
     if ( state.linkedin_reducer.profile === null){
       return <p>Loading...</p>
     } else{
@@ -499,29 +487,37 @@ const Cards = (props) => {
                    []             
       }
         <CRow >
-          Name: {p.name}
+          <h5>Name: </h5>{p.name}
+        </CRow>
+        { p.about !== undefined ?  
+        <CRow >
+          <h5>About:</h5> {p.about} 
+        </CRow>  : []  }
+
+        <CRow >
+        <h5>contact_info:</h5>{p.profile_link}
         </CRow>
         <CRow >
-        About: {p.about}
+        <h5>Experiences: </h5>{p.experiences}
         </CRow>
         <CRow >
-        contact_info: {p.profile_link}
+        <h5>Education: </h5>{p.educations}
         </CRow>
+
+        { p.accomplishments !== undefined ? 
         <CRow >
-        Experiences: {p.experiences}
-        </CRow>
+        <h5>Accomplishments:</h5> {p.accomplishments}
+        </CRow> : [] }
+        { p.interests !== undefined ?  
         <CRow >
-        Education: {p.educations}
-        </CRow>
+        <h5>Interests: </h5>{p.interests}
+        </CRow> : []}
+
+        { p.contacts !== undefined ?  
         <CRow >
-        Accomplishments: {p.accomplishments}
-        </CRow>
-        <CRow >
-        Interests: {p.interests}
-        </CRow>
-        <CRow >
-        Contacts: {p.contacts}
-        </CRow>
+        <h5>Contacts: </h5>{p.contacts}
+        </CRow> : []}
+
       </CContainer>
       )
     }
@@ -538,7 +534,7 @@ const Cards = (props) => {
 
               <CRow>
 
-              <CCol  xs="3" sm="3" md="3">
+              <CCol  xs="3" sm="4" md="4">
                 { profile_img() }
 
                 </CCol >
@@ -570,14 +566,14 @@ const Cards = (props) => {
           <CCard>
             <CCardHeader>
               <h3>
-              Social Media Accounts Found
+              Social Media Accounts
               </h3>
            
 
       </CCardHeader>
 
             <CCardBody>
-              { search_component() }
+              <SearchComponent usernames={usernames}/>
                             
 
             </CCardBody>
@@ -631,21 +627,24 @@ const Cards = (props) => {
 
               </CNav>
               <CTabContent>
-                <CTabPane>
-                 <CCard>
-                    <CCardHeader>
-                      { twitter_profile_component() }
-                    </CCardHeader>
-                    <CCardBody>
-                    
-                      { tweets_component()}
+                { uTwitter != null ? 
+                  <CTabPane>
+                  <CCard>
+                      <CCardHeader>
+                        { twitter_profile_component() }
+                      </CCardHeader>
+                      <CCardBody>
+                      
+                        { tweets_component()}
+  
+  
+                      </CCardBody>
+                    </CCard>
+  
+                  </CTabPane> : []
+              }
 
-
-                    </CCardBody>
-                  </CCard>
-
-                </CTabPane>
-
+              { uFacebook != null ?
                 <CTabPane>
 
                 <CCard>
@@ -658,7 +657,11 @@ const Cards = (props) => {
                     </CCardBody>
                   </CCard>
 
-                </CTabPane>
+                </CTabPane> : []     
+              
+              }
+
+              { uInstagram != null ?
                 <CTabPane>
 
                 <CCard>
@@ -675,7 +678,9 @@ const Cards = (props) => {
                   </CCard>
 
 
-                </CTabPane>
+                </CTabPane>  :[]
+              }
+              { uLinkedin != null ? 
                 <CTabPane>
 
 
@@ -689,10 +694,10 @@ const Cards = (props) => {
                     </CCardBody>
                   </CCard>
 
-                </CTabPane>
-                <CTabPane>
-                  {`3. ${lorem}`}
-                </CTabPane>
+                </CTabPane> : []
+              }
+
+
               </CTabContent>
             </CTabs>
           </CCardBody>
