@@ -37,3 +37,9 @@ If you want, you can create initial super-user with next commands:
 docker exec -it <api_container_id> /bin/bash
 ./manage.py createsuperuser
 ```
+### Credentials
+
+Default credentials for using the VM and the web app installed are:
+
+user: ouser
+password: osint1234
